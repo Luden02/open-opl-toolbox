@@ -1,12 +1,26 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createRoot } from 'react-dom/client';
 import React, { Component } from 'react';
-import { Provider } from "./components/ui/provider"
+import { ChakraProvider, defaultSystem, Tabs } from "@chakra-ui/react"
+import LibraryPageComponent from './pages/LibraryPage/LibraryPageComponent';
 
 class App extends Component {
     render() {
-        return <Provider><h2>Hello from React!</h2></Provider>;
+        return (
+                <Tabs.Root defaultValue={"library"}>
+                    {/* @ts-ignore */}
+                    <Tabs.List>
+                        {/* @ts-ignore */}
+                        <Tabs.Trigger value="library">Library</Tabs.Trigger>
+                        {/* @ts-ignore */}
+                        {/* <Tabs.Trigger value="batch-actions">Batch Actions</Tabs.Trigger> */}
+                    </Tabs.List>
+                    {/* @ts-ignore */}
+                    <Tabs.Content value="library"><LibraryPageComponent /></Tabs.Content>
+                </Tabs.Root>
+        );
     }
 }
 
 const root = createRoot(document.body);
-root.render(<App />);
+root.render(<ChakraProvider value={defaultSystem}><App /></ChakraProvider>);
