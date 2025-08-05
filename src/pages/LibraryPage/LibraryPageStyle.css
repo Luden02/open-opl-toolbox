@@ -1,3 +1,15 @@
 .container {
     margin-left: 12px;
 }
+
+.footer-bar {
+    padding-top: 10px;
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+
+    .directory {
+        font-size: 14px;
+        color: var(--grey-400);
+    }
+}

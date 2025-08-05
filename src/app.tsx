@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createRoot } from 'react-dom/client';
-import React, { Component } from 'react';
-import { ChakraProvider, defaultSystem, Tabs } from "@chakra-ui/react"
+import { Component } from 'react';
+import { ChakraProvider, defaultSystem, Tabs, Theme } from "@chakra-ui/react"
 import LibraryPageComponent from './pages/LibraryPage/LibraryPageComponent';
 
 class App extends Component {
@@ -23,4 +23,4 @@ class App extends Component {
 }
 
 const root = createRoot(document.body);
-root.render(<ChakraProvider value={defaultSystem}><App /></ChakraProvider>);
+root.render(<ChakraProvider value={defaultSystem}><Theme appearance='light'><App /></Theme></ChakraProvider>);
