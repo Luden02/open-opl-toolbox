@@ -1,8 +1,8 @@
 {
   "name": "open-opl-toolbox",
   "productName": "open-opl-toolbox",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "0.1.0",
+  "description": "An open-source and cross-platform toolbox for your OpenPS2Loader (OPL) needs",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -16,7 +16,7 @@
     "name": "Stefan Adrian Nita",
     "email": "stefanadrian.nita@icloud.com"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@electron-forge/cli": "^7.8.2",
     "@electron-forge/maker-deb": "^7.8.2",
