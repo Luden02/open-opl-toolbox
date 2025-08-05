@@ -14,6 +14,30 @@ This project does not aim to replace OPLManager and never will—it's just anoth
 
 Electron and React were used to make development and maintenance of the codebase much faster and easily readable by developers skilled in JavaScript who might want to contribute and to make it visually pleasing in a way.
 
+# Features and Roadmap
+## ✅ Current Features
+
+- **Cross-Platform Support**: Works on Windows, macOS, and Linux
+- **OPL Library Management**: Organize and manage your PlayStation 2 game collection
+- **Modern Interface**: Clean, intuitive UI built with React and Chakra UI
+
+## 🚧 Roadmap
+
+### Short Term (Next Release)
+- [ ] Game metadata editing
+- [ ] Auto-conversion on import to pattern-named .iso file
+- [ ] Game artwork management and display
+- [ ] Search and filter functionality
+
+### Long Term
+- [ ] Automatic metadata import through API Call
+- [ ] PS1 and APPS support
+- [ ] Cheats Management Support
+- [ ] CFG (TBD)
+
+> **Note**: This roadmap is subject to change based on community feedback and development priorities. Features may be added, modified, or reprioritized.
+
+
 # How to Use
 
 ## Installation
