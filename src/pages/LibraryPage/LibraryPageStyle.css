@@ -1,8 +1,19 @@
 .container {
-    margin-left: 12px;
+    margin: 0px 12px;
+    display: flex;
+    gap: 12px;
+    
+    .table-section {
+        flex: 1;
+    }
+
+    .info-section {
+        flex: 1;
+    }
 }
 
 .footer-bar {
+    padding-left: 12px;
     padding-top: 10px;
     display: flex;
     column-gap: 12px;
@@ -12,4 +23,8 @@
         font-size: 14px;
         color: var(--grey-400);
     }
+}
+
+.game-row {
+cursor: pointer;
 }
