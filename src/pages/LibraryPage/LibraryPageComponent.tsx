@@ -14,6 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ElectronAPI, FileSystemItem } from "../../utils/electron-api";
+import { writeLogLine } from "../../services/log.service";
 
 declare global {
   interface Window {
@@ -40,48 +41,109 @@ type State = {
   currentGame: gameObject;
 };
 class LibraryPageComponent extends Component<Props, State> {
-  state: State = {
-    loadedDirectory: undefined,
-    cd_games: [],
-    dvd_games: [],
-    isLoading: false,
-    currentGame: undefined,
-  };
-
   constructor(props: Props) {
     super(props);
+
+    this.state = {
+      loadedDirectory: undefined,
+      cd_games: [],
+      dvd_games: [],
+      isLoading: false,
+      currentGame: undefined,
+    };
   }
 
   onLoadDirectoryClick = () => {
     this.setState({ isLoading: true });
+    this.setState({
+      loadedDirectory: undefined,
+      cd_games: [],
+      dvd_games: [],
+      currentGame: undefined,
+    });
     window.electronAPI
       .showOpenDialog()
       .then((res) => {
-        this.setState({ loadedDirectory: res.filePaths[0] }, () => {
-          if (this.state.loadedDirectory) {
-            const promises = [
-              window.electronAPI
-                .readDirectory(this.state.loadedDirectory + "/CD")
-                .then((res) => this.mapFilesToGameObjects(res.files, "CD")),
-              window.electronAPI
-                .readDirectory(this.state.loadedDirectory + "/DVD")
-                .then((res) => this.mapFilesToGameObjects(res.files, "DVD")),
-            ];
+        if (!res.canceled) {
+          writeLogLine(
+            "Directory has been chosen: " + res.filePaths[0],
+            "normal",
+            false
+          );
+          this.setState({ loadedDirectory: res.filePaths[0] }, () => {
+            if (this.state.loadedDirectory) {
+              writeLogLine("Starting fetching of folders...", "verbose", false);
+              writeLogLine("Looking into /CD", "verbose", false);
+              writeLogLine("Looking into /DVD", "verbose", false);
+              const promises = [
+                window.electronAPI
+                  .readDirectory(this.state.loadedDirectory + "/CD")
+                  .then((res) => {
+                    writeLogLine(
+                      "Converting /CD files to internal game objects...",
+                      "verbose",
+                      false
+                    );
+                    this.mapFilesToGameObjects(res.files, "CD");
+                  })
+                  .catch((err) => {
+                    writeLogLine(
+                      "Error reading /CD directory: " + err.message,
+                      "normal",
+                      true
+                    );
+                  }),
+                window.electronAPI
+                  .readDirectory(this.state.loadedDirectory + "/DVD")
+                  .then((res) => {
+                    writeLogLine(
+                      "Converting /DVD files to internal game objects...",
+                      "verbose",
+                      false
+                    );
+                    this.mapFilesToGameObjects(res.files, "DVD");
+                  })
+                  .catch((err) => {
+                    writeLogLine(
+                      "Error reading /DVD directory: " + err.message,
+                      "normal",
+                      true
+                    );
+                  }),
+              ];
 
-            Promise.all(promises).finally(() => {
+              Promise.all(promises).finally(() => {
+                this.setState({ isLoading: false });
+              });
+            } else {
               this.setState({ isLoading: false });
-            });
-          } else {
-            this.setState({ isLoading: false });
-          }
-        });
+            }
+          });
+        } else {
+          writeLogLine(
+            "Directory prompt has been canceled by user.",
+            "verbose",
+            false
+          );
+          this.setState({ isLoading: false });
+        }
       })
       .catch(() => {
+        writeLogLine(
+          "There was a problem opening the file explorer popup.",
+          "normal",
+          true
+        );
         this.setState({ isLoading: false });
       });
   };
 
   mapFilesToGameObjects = (files: FileSystemItem[], gameType: "CD" | "DVD") => {
+    writeLogLine(
+      "Parsing for type: " + gameType + " started.",
+      "verbose",
+      false
+    );
     const toSend: gameObject[] = [];
     files
       .filter(
@@ -108,9 +170,19 @@ class LibraryPageComponent extends Component<Props, State> {
           diskType: gameType,
         };
 
+        writeLogLine(
+          "Parsed game: " + JSON.stringify(gameObj),
+          "verbose",
+          false
+        );
         toSend.push(gameObj);
       });
 
+    writeLogLine(
+      "Parsed " + toSend.length + " " + gameType + " games",
+      "normal",
+      false
+    );
     switch (gameType) {
       case "CD":
         this.setState({ cd_games: toSend });
@@ -122,17 +194,31 @@ class LibraryPageComponent extends Component<Props, State> {
   };
 
   onGameClick = (game: gameObject) => {
+    writeLogLine(
+      "Clicked on: " + JSON.stringify(game) + " Loading data in infobox",
+      "verbose",
+      false
+    );
     this.setState({ currentGame: game }, () => {
       window.electronAPI
         .get3DCoverArt(this.state.currentGame.gameId)
         .then((res: any) => {
-          console.log(res.data);
           this.setState({
             currentGame: {
               ...this.state.currentGame,
               "3dcoverart": res.data,
             },
           });
+        })
+        .catch((err) => {
+          writeLogLine(
+            "Error loading 3D cover art for game " +
+              this.state.currentGame.gameId +
+              ": " +
+              err.message,
+            "normal",
+            true
+          );
         });
     });
   };
@@ -157,9 +243,13 @@ class LibraryPageComponent extends Component<Props, State> {
                   {[...this.state.cd_games, ...this.state.dvd_games].map(
                     (game) => (
                       <Table.Row
-                        className="game-row"
                         key={game.gameId}
                         onClick={() => this.onGameClick(game)}
+                        className={
+                          game.gameId === this.state.currentGame?.gameId
+                            ? "game-row selected"
+                            : "game-row"
+                        }
                       >
                         <Table.Cell
                           maxW="31ch"

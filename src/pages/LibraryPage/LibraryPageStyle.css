@@ -1,30 +1,34 @@
 .container {
-    margin: 0px 12px;
-    display: flex;
-    gap: 12px;
-    
-    .table-section {
-        flex: 1;
-    }
+  margin: 0px 12px;
+  display: flex;
+  gap: 12px;
 
-    .info-section {
-        flex: 1;
-    }
+  .table-section {
+    flex: 1;
+  }
+
+  .info-section {
+    flex: 1;
+  }
 }
 
 .footer-bar {
-    padding-left: 12px;
-    padding-top: 10px;
-    display: flex;
-    column-gap: 12px;
-    align-items: center;
+  padding-left: 12px;
+  padding-top: 10px;
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
 
-    .directory {
-        font-size: 14px;
-        color: var(--grey-400);
-    }
+  .directory {
+    font-size: 14px;
+    color: var(--grey-400);
+  }
 }
 
 .game-row {
-cursor: pointer;
+  cursor: pointer;
+
+  &.selected {
+    background-color: var(--grey-200);
+  }
 }

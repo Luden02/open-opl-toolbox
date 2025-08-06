@@ -1,0 +1,24 @@
+.container {
+  margin: 0 12px;
+}
+
+.logs-container {
+  margin-top: 24px;
+  border: 1px solid var(--grey-400);
+  width: 1%;
+  width: 1256px;
+  height: 580px;
+  overflow: auto;
+
+  .info {
+    color: var(--grey-700);
+  }
+
+  .verbose {
+    color: var(--grey-500);
+  }
+
+  .error {
+    color: var(--red-500);
+  }
+}
