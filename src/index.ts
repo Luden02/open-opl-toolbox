@@ -137,3 +137,34 @@ ipcMain.handle("read-directory", async (event, dirPath: string) => {
     throw new Error(`Failed to read directory: ${error.message}`);
   }
 });
+
+ipcMain.handle("get-asset", async (event, name: string) => {
+  try {
+    const assetPath = path.join(__dirname, "../../assets", name);
+    const fileBuffer = await fs.readFile(assetPath);
+    const base64 = fileBuffer.toString("base64");
+
+    // Determine MIME type based on file extension
+    const ext = path.extname(name).toLowerCase();
+    const mimeTypes: { [key: string]: string } = {
+      ".png": "image/png",
+      ".jpg": "image/jpeg",
+      ".jpeg": "image/jpeg",
+      ".gif": "image/gif",
+      ".svg": "image/svg+xml",
+      ".webp": "image/webp",
+    };
+
+    const mimeType = mimeTypes[ext] || "application/octet-stream";
+
+    return {
+      success: true,
+      data: `data:${mimeType};base64,${base64}`,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+});

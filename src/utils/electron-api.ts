@@ -1,7 +1,10 @@
 export interface ElectronAPI {
-  showOpenDialog: (options?: any) => Promise<{ canceled: boolean; filePaths: string[] }>;
+  showOpenDialog: (
+    options?: any
+  ) => Promise<{ canceled: boolean; filePaths: string[] }>;
   readDirectory: (dirPath: string) => Promise<DirectoryContents>;
   get3DCoverArt: (gameId: string) => Promise<string>;
+  getAsset: (asset: string) => Promise<object>;
 }
 
 export interface FileSystemItem {
