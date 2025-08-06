@@ -9,6 +9,8 @@ import {
   GridItem,
   Image,
   Input,
+  Skeleton,
+  Spinner,
   Stack,
   Table,
   Text,
@@ -295,20 +297,117 @@ class LibraryPageComponent extends Component<Props, State> {
                   </div>
                 </Flex>
               </GridItem>
-              <GridItem colSpan={9}>test</GridItem>
+              <GridItem colSpan={8} height={"100%"}>
+                <div className="actions-box">
+                  <Grid>
+                    <GridItem colSpan={12}>
+                      <Button width={"100%"} disabled={!this.state.currentGame}>
+                        Delete Game
+                      </Button>
+                    </GridItem>
+                    <GridItem colSpan={12} marginTop={"64px"}>
+                      <Button width={"100%"} disabled={!this.state.currentGame}>
+                        Grab Remote Art
+                      </Button>
+                    </GridItem>
+                    <GridItem colSpan={12} marginTop={"64px"}>
+                      <Button width={"100%"} disabled={!this.state.currentGame}>
+                        Remove All Art
+                      </Button>
+                    </GridItem>
+                  </Grid>
+                </div>
+              </GridItem>
+              <GridItem colSpan={1}></GridItem>
               <GridItem colSpan={3}>
-                <Flex justifyContent={"end"} height={"100%"} alignItems={"end"}>
+                <Flex
+                  justifyContent={"center"}
+                  height={"324px"}
+                  alignItems={"center"}
+                  className="coverart-container"
+                >
                   <div>
-                    <GridItem colSpan={6} marginRight={"12px"}>
-                      {this.state?.currentGame?.["3dcoverart"] && (
-                        <Image
-                          height={"300px"}
-                          src={this.state.currentGame["3dcoverart"]}
-                        ></Image>
-                      )}
+                    <GridItem colSpan={6}>
+                      {this.state?.currentGame ? (
+                        this.state.currentGame["3dcoverart"] ? (
+                          <Image
+                            height={"300px"}
+                            src={this.state.currentGame["3dcoverart"]}
+                          />
+                        ) : (
+                          <Stack height={"300px"}>
+                            <Spinner marginTop={"150px"} />
+                          </Stack>
+                        )
+                      ) : null}
                     </GridItem>
                   </div>
                 </Flex>
+              </GridItem>
+              <GridItem colSpan={12} height={"116px"}>
+                <div className="actions-box">
+                  <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+                    <GridItem>
+                      <Text fontSize="sm" fontWeight="bold">
+                        CD Games
+                      </Text>
+                      <Text fontSize="lg">{this.state.cd_games.length}</Text>
+                    </GridItem>
+                    <GridItem>
+                      <Text fontSize="sm" fontWeight="bold">
+                        DVD Games
+                      </Text>
+                      <Text fontSize="lg">{this.state.dvd_games.length}</Text>
+                    </GridItem>
+                    <GridItem>
+                      <Text fontSize="sm" fontWeight="bold">
+                        Total Games
+                      </Text>
+                      <Text fontSize="lg">
+                        {this.state.cd_games.length +
+                          this.state.dvd_games.length}
+                      </Text>
+                    </GridItem>
+                    <GridItem>
+                      <Text fontSize="sm" fontWeight="bold">
+                        Total Size
+                      </Text>
+                      <Text fontSize="lg">
+                        {(() => {
+                          const allGames = [
+                            ...this.state.cd_games,
+                            ...this.state.dvd_games,
+                          ];
+                          const totalBytes = allGames.reduce((sum, game) => {
+                            const sizeStr = game.size;
+                            let bytes = 0;
+                            if (sizeStr.includes("GB")) {
+                              bytes = parseFloat(sizeStr) * 1024 * 1024 * 1024;
+                            } else if (sizeStr.includes("MB")) {
+                              bytes = parseFloat(sizeStr) * 1024 * 1024;
+                            } else {
+                              bytes = parseFloat(sizeStr);
+                            }
+                            return sum + bytes;
+                          }, 0);
+
+                          if (totalBytes >= 1024 * 1024 * 1024) {
+                            return (
+                              (totalBytes / (1024 * 1024 * 1024)).toFixed(2) +
+                              " GB"
+                            );
+                          } else if (totalBytes >= 1024 * 1024) {
+                            return (
+                              (totalBytes / (1024 * 1024)).toFixed(2) + " MB"
+                            );
+                          } else {
+                            return totalBytes + " bytes";
+                          }
+                        })()}
+                      </Text>
+                    </GridItem>
+                  </Grid>
+                </div>
               </GridItem>
             </Grid>
           </div>

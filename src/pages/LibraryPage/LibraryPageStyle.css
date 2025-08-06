@@ -32,3 +32,13 @@
     background-color: var(--grey-200);
   }
 }
+
+.coverart-container {
+  border: 1px solid var(--grey-200);
+}
+
+.actions-box {
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--grey-200);
+}
