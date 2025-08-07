@@ -1,7 +1,7 @@
 {
   "name": "open-opl-toolbox",
   "productName": "open-opl-toolbox",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "An open-source and cross-platform toolbox for your OpenPS2Loader (OPL) needs",
   "main": ".webpack/main",
   "scripts": {
