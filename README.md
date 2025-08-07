@@ -1,5 +1,4 @@
-![Logo](src/assets/logo.svg)
-
+![Logo](assets/logo.svg)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)
@@ -15,6 +14,7 @@ This project does not aim to replace OPLManager and never will—it's just anoth
 Electron and React were used to make development and maintenance of the codebase much faster and easily readable by developers skilled in JavaScript who might want to contribute and to make it visually pleasing in a way.
 
 # Features and Roadmap
+
 ## ✅ Current Features
 
 - **Cross-Platform Support**: Works on Windows, macOS, and Linux
@@ -24,19 +24,20 @@ Electron and React were used to make development and maintenance of the codebase
 ## 🚧 Roadmap
 
 ### Short Term (Next Release)
+
 - [ ] Game metadata editing
 - [ ] Auto-conversion on import to pattern-named .iso file
 - [ ] Game artwork management and display
 - [ ] Search and filter functionality
 
 ### Long Term
+
 - [ ] Automatic metadata import through API Call
 - [ ] PS1 and APPS support
 - [ ] Cheats Management Support
 - [ ] CFG (TBD)
 
 > **Note**: This roadmap is subject to change based on community feedback and development priorities. Features may be added, modified, or reprioritized.
-
 
 # How to Use
 
@@ -45,16 +46,19 @@ Electron and React were used to make development and maintenance of the codebase
 Download the latest release for your operating system from the [Releases](https://github.com/StefanAdrianNita/open-opl-toolbox/releases) page.
 
 ### Windows
+
 1. Download the `.exe` installer
 2. Run the installer and follow the setup wizard
 3. Launch OpenOPLToolbox from the Start Menu or desktop shortcut
 
 ### macOS
+
 1. Download the `.dmg` file
 2. Open the DMG and drag OpenOPLToolbox to your Applications folder
 3. Launch from Applications or Spotlight
 
 ### Linux
+
 1. Download the `.AppImage` file
 2. Make it executable: `chmod +x OpenOPLToolbox-*.AppImage`
 3. Run the AppImage directly or integrate it with your desktop environment
@@ -84,20 +88,22 @@ Contributions are welcome! Here's how you can help improve OpenOPLToolbox:
 ## Development Setup
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/StefanAdrianNita/open-opl-toolbox.git
-    cd open-opl-toolbox
-    ```
+
+   ```bash
+   git clone https://github.com/StefanAdrianNita/open-opl-toolbox.git
+   cd open-opl-toolbox
+   ```
 
 2. Install dependencies:
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 3. Start the development server:
-    ```bash
-    npm run start
-    ```
+   ```bash
+   npm run start
+   ```
 
 ## Pull Request Process
 
