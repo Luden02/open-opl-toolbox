@@ -3,9 +3,9 @@ import { writeLogLine } from "./log.service";
 import { SystemService } from "./system.service";
 
 export class GameLibraryService {
-  private systemService = new SystemService();
+  private readonly systemService = new SystemService();
 
-  private subscribers: ((state: Library) => void)[] = [];
+  private readonly subscribers: ((state: Library) => void)[] = [];
 
   private state: Library = {
     loadedDirectory: null,

@@ -3,9 +3,9 @@ export interface SystemState {
 }
 
 export class SystemService {
-  private subscribers: ((state: SystemState) => void)[] = [];
+  private readonly subscribers: ((state: SystemState) => void)[] = [];
 
-  private state: SystemState = {
+  private readonly state: SystemState = {
     isLoading: false,
   };
 
