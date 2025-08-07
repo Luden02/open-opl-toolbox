@@ -52,47 +52,41 @@ class LogPageComponent extends Component<props, state> {
     const { logs } = this.state;
 
     return (
-      <div>
-        <div className="container">
-          <Grid>
-            <GridItem colSpan={12}>
-              <Switch.Root
-                checked={this.state.verboseToggle}
-                onCheckedChange={(e: any) => {
-                  const newVerboseState = e.checked;
-                  this.setState({ verboseToggle: newVerboseState }, () => {
-                    // Unsubscribe from current subscription
-                    if (this.unsubscribe) {
-                      this.unsubscribe();
-                    }
+      <div className="container">
+        <div className="verbose-toggle">
+          <Switch.Root
+            checked={this.state.verboseToggle}
+            onCheckedChange={(e: any) => {
+              const newVerboseState = e.checked;
+              this.setState({ verboseToggle: newVerboseState }, () => {
+                // Unsubscribe from current subscription
+                if (this.unsubscribe) {
+                  this.unsubscribe();
+                }
 
-                    // Subscribe with new verbose setting
-                    this.unsubscribe = subscribeLogBucket(
-                      (updatedLogs) => {
-                        this.setState({ logs: updatedLogs });
-                      },
-                      this.state.verboseToggle ? "verbose" : "normal"
-                    );
-                  });
-                }}
-              >
-                <Switch.HiddenInput />
-                <Switch.Control />
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                <Switch.Label>Verbose</Switch.Label>
-              </Switch.Root>
-            </GridItem>
-            <GridItem colSpan={12}>
-              <div className="logs-container">
-                {logs.map((log, index) => (
-                  <div key={index} className={this.getLogClassName(log)}>
-                    {log}
-                  </div>
-                ))}
-              </div>
-            </GridItem>
-          </Grid>
+                // Subscribe with new verbose setting
+                this.unsubscribe = subscribeLogBucket(
+                  (updatedLogs) => {
+                    this.setState({ logs: updatedLogs });
+                  },
+                  this.state.verboseToggle ? "verbose" : "normal"
+                );
+              });
+            }}
+          >
+            <Switch.HiddenInput />
+            <Switch.Control />
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
+            <Switch.Label>Verbose</Switch.Label>
+          </Switch.Root>
+        </div>
+        <div className="logs-container">
+          {logs.map((log, index) => (
+            <div key={index} className={this.getLogClassName(log)}>
+              {log}
+            </div>
+          ))}
         </div>
       </div>
     );

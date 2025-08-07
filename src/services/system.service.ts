@@ -41,7 +41,6 @@ export class SystemService {
   }
 
   public async toggleIsLoading(value: boolean) {
-    console.log("isLoading", value);
     this.state.isLoading = value;
     this.notifySubscribers();
   }

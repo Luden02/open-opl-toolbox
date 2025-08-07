@@ -42,7 +42,6 @@ class LibraryPageComponent extends Component<Props, State> {
     });
 
     this.systemService.subscribe((state) => {
-      console.log("SystemService state update:", state);
       this.setState({ isLoading: state.isLoading });
     });
   }

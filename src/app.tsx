@@ -70,17 +70,12 @@ class App extends Component<props, state> {
           <LibraryPageComponent />
         </Tabs.Content>
         {/* @ts-ignore */}
-        <Tabs.Content value="logs">
+        <Tabs.Content value="logs" height={"100%"}>
           <LogPageComponent />
         </Tabs.Content>
         {/* @ts-ignore */}
-        <Tabs.Content value="info">
-          <Flex
-            direction="column"
-            alignItems="center"
-            marginTop="32px"
-            height="100%"
-          >
+        <Tabs.Content value="info" height={"100%"}>
+          <Flex direction="column" alignItems="center" marginTop="32px">
             {this.state.logoSrc && <Image src={this.state.logoSrc}></Image>}
             <div style={{ marginTop: "24px" }}>
               OpenOPL Toolbox - Version: {packageInfo.version}

@@ -1,14 +1,24 @@
 .container {
   margin: 0 12px;
+  height: calc(
+    100vh - 60px
+  ); /* Use viewport height minus any header/navigation */
+  max-height: calc(100vh - 60px); /* Prevent growing beyond viewport */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent container from creating scrollbars */
 }
 
 .logs-container {
-  margin-top: 24px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   border: 1px solid var(--grey-400);
-  width: 1%;
-  width: 1256px;
-  height: 580px;
-  overflow: auto;
+  width: 100%;
+  flex: 1; /* Take remaining space */
+  min-height: 0; /* Allow flex item to shrink below content size */
+  overflow-x: hidden;
+  overflow-y: auto;
+  word-wrap: break-word;
 
   .info {
     color: var(--grey-700);
