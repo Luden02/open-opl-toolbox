@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import LibraryPageComponent from "./pages/LibraryPage/LibraryPageComponent";
 import LogPageComponent from "./pages/LogPage/LogPageComponent";
-import { ElectronAPI } from "./utils/electron-api";
+import { ElectronAPI } from "./types";
 import { writeLogLine } from "./services/log.service";
 import packageInfo from "../package.json";
 
