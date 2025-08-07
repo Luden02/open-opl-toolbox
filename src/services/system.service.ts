@@ -3,11 +3,19 @@ export interface SystemState {
 }
 
 export class SystemService {
+  private static instance: SystemService;
   private readonly subscribers: ((state: SystemState) => void)[] = [];
 
   private readonly state: SystemState = {
     isLoading: false,
   };
+
+  public static getInstance(): SystemService {
+    if (!SystemService.instance) {
+      SystemService.instance = new SystemService();
+    }
+    return SystemService.instance;
+  }
 
   subscribe(callback: (state: SystemState) => void) {
     this.subscribers.push(callback);
@@ -21,11 +29,19 @@ export class SystemService {
     };
   }
 
+  unsubscribe(callback: (state: SystemState) => void) {
+    const index = this.subscribers.indexOf(callback);
+    if (index > -1) {
+      this.subscribers.splice(index, 1);
+    }
+  }
+
   private notifySubscribers() {
     this.subscribers.forEach((callback) => callback({ ...this.state }));
   }
 
   public async toggleIsLoading(value: boolean) {
+    console.log("isLoading", value);
     this.state.isLoading = value;
     this.notifySubscribers();
   }

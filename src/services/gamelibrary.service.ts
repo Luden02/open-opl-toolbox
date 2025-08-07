@@ -3,7 +3,8 @@ import { writeLogLine } from "./log.service";
 import { SystemService } from "./system.service";
 
 export class GameLibraryService {
-  private readonly systemService = new SystemService();
+  private static instance: GameLibraryService;
+  private readonly systemService = SystemService.getInstance();
 
   private readonly subscribers: ((state: Library) => void)[] = [];
 
@@ -13,6 +14,13 @@ export class GameLibraryService {
     dvdGamesList: [],
     selectedGame: null,
   };
+
+  public static getInstance(): GameLibraryService {
+    if (!GameLibraryService.instance) {
+      GameLibraryService.instance = new GameLibraryService();
+    }
+    return GameLibraryService.instance;
+  }
 
   subscribe(callback: (state: Library) => void) {
     this.subscribers.push(callback);
@@ -24,6 +32,13 @@ export class GameLibraryService {
         this.subscribers.splice(index, 1);
       }
     };
+  }
+
+  unsubscribe(callback: (state: Library) => void) {
+    const index = this.subscribers.indexOf(callback);
+    if (index > -1) {
+      this.subscribers.splice(index, 1);
+    }
   }
 
   private notifySubscribers() {
@@ -39,6 +54,7 @@ export class GameLibraryService {
           "normal",
           false
         );
+        this.systemService.toggleIsLoading(false);
         return this.loadLibraryFromDirectory(res.filePaths[0]);
       }
       writeLogLine(
@@ -46,6 +62,7 @@ export class GameLibraryService {
         "verbose",
         false
       );
+      this.systemService.toggleIsLoading(false);
     });
   }
 
@@ -74,6 +91,7 @@ export class GameLibraryService {
       this.notifySubscribers();
     } catch (error) {
       writeLogLine(`Failed to load library: ${error.message}`, "normal", true);
+      this.systemService.toggleIsLoading(false);
     }
   }
 
@@ -91,6 +109,7 @@ export class GameLibraryService {
         "normal",
         true
       );
+      this.systemService.toggleIsLoading(false);
       return [];
     }
   }

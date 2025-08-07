@@ -15,6 +15,14 @@ export interface GameObject {
   diskType: "CD" | "DVD";
   art?: {
     coverart3d?: string;
+    front_cover: string;
+    back_cover: string;
+    disc_icon: string;
+    spine_cover: string;
+    screen_1: string;
+    screen_2: string;
+    background: string;
+    logo: string;
   };
 }
 

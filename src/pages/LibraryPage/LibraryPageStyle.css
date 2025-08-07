@@ -1,4 +1,4 @@
-.container {
+/* .container {
   margin: 0px 12px;
   display: flex;
   gap: 12px;
@@ -41,4 +41,21 @@
   height: 100%;
   padding: 24px;
   border: 1px solid var(--grey-200);
+} */
+
+.library-page {
+  margin: 0px 12px;
+  height: 100%;
+}
+
+.footer-bar {
+  padding-top: 10px;
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
+
+  .directory {
+    font-size: 14px;
+    color: var(--grey-400);
+  }
 }

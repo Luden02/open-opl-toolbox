@@ -48,7 +48,12 @@ class App extends Component<props, state> {
 
   render() {
     return (
-      <Tabs.Root defaultValue={"library"}>
+      <Tabs.Root
+        defaultValue={"library"}
+        height="100vh"
+        display="flex"
+        flexDirection="column"
+      >
         {/* @ts-ignore */}
         <Tabs.List>
           {/* @ts-ignore */}
@@ -61,7 +66,7 @@ class App extends Component<props, state> {
           {/* <Tabs.Trigger value="batch-actions">Batch Actions</Tabs.Trigger> */}
         </Tabs.List>
         {/* @ts-ignore */}
-        <Tabs.Content value="library">
+        <Tabs.Content value="library" height={"100%"}>
           <LibraryPageComponent />
         </Tabs.Content>
         {/* @ts-ignore */}
@@ -70,7 +75,12 @@ class App extends Component<props, state> {
         </Tabs.Content>
         {/* @ts-ignore */}
         <Tabs.Content value="info">
-          <Flex direction="column" alignItems="center" marginTop="32px">
+          <Flex
+            direction="column"
+            alignItems="center"
+            marginTop="32px"
+            height="100%"
+          >
             {this.state.logoSrc && <Image src={this.state.logoSrc}></Image>}
             <div style={{ marginTop: "24px" }}>
               OpenOPL Toolbox - Version: {packageInfo.version}
@@ -91,7 +101,9 @@ const root = createRoot(document.body);
 root.render(
   <ChakraProvider value={defaultSystem}>
     <Theme appearance="light">
-      <App />
+      <Container minHeight="100vh" minWidth={"100vW"} margin={0} padding={0}>
+        <App />
+      </Container>
     </Theme>
   </ChakraProvider>
 );
