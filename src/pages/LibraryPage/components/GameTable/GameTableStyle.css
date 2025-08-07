@@ -1,0 +1,7 @@
+.game-row {
+  cursor: pointer;
+
+  &.active {
+    background-color: var(--grey-100);
+  }
+}

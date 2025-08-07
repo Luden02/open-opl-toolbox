@@ -165,4 +165,10 @@ export class GameLibraryService {
 
     return toSend;
   }
+
+  public onGameSelection = (game: GameObject) => {
+    console.log(game);
+    this.state.selectedGame = game;
+    this.notifySubscribers();
+  };
 }

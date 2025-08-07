@@ -4,8 +4,9 @@ import "./LibraryPageStyle.css";
 import { Button, Grid, GridItem, Text } from "@chakra-ui/react";
 import { ElectronAPI, Library } from "../../types";
 import { GameLibraryService } from "../../services/gamelibrary.service";
-import GameTableComponent from "./components/GameTableComponent";
+import GameTableComponent from "./components/GameTable/GameTableComponent";
 import { SystemService } from "../../services/system.service";
+import GameDetailsComponent from "./components/GameDetailsComponent";
 
 declare global {
   interface Window {
@@ -65,10 +66,15 @@ class LibraryPageComponent extends Component<Props, State> {
           height={"calc(100% - 60px)"}
         >
           <GridItem colSpan={9} h={"100%"}>
-            <GameTableComponent library={this.state.library} />
+            <GameTableComponent
+              library={this.state.library}
+              onGameRowClick={this.gameLibraryService.onGameSelection}
+            />
           </GridItem>
           <GridItem colSpan={3} h={"100%"}>
-            test
+            <GameDetailsComponent
+              selectedGame={this.state.library.selectedGame}
+            />
           </GridItem>
         </Grid>
         <div className="footer-bar">

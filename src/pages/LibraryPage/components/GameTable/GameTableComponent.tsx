@@ -1,12 +1,18 @@
 import { Container, Table } from "@chakra-ui/react";
-import { Library } from "../../../types";
+import { GameObject, Library } from "../../../../types";
 import React from "react";
+
+import "./GameTableStyle.css";
 
 interface GameTableComponentProps {
   library: Library;
+  onGameRowClick: (game: GameObject) => void;
 }
 
-const GameTableComponent: React.FC<GameTableComponentProps> = ({ library }) => {
+const GameTableComponent: React.FC<GameTableComponentProps> = ({
+  library,
+  onGameRowClick,
+}) => {
   return (
     <Container padding={0} margin={0} h={"100%"}>
       <Table.ScrollArea borderWidth="1px" h={"100%"} overflowX="auto">
@@ -35,7 +41,11 @@ const GameTableComponent: React.FC<GameTableComponentProps> = ({ library }) => {
           </Table.Header>
           <Table.Body>
             {[...library.cdGamesList, ...library.dvdGamesList].map((game) => (
-              <Table.Row key={game.gameId}>
+              <Table.Row
+                className={`game-row${library.selectedGame?.gameId === game.gameId ? " active" : ""}`}
+                key={game.gameId}
+                onClick={() => onGameRowClick(game)}
+              >
                 <Table.Cell
                   overflow="hidden"
                   textOverflow="ellipsis"
