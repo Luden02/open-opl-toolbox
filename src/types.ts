@@ -3,7 +3,7 @@ export interface ElectronAPI {
     options?: any
   ) => Promise<{ canceled: boolean; filePaths: string[] }>;
   readDirectory: (dirPath: string) => Promise<DirectoryContents>;
-  get3DCoverArt: (gameId: string) => Promise<string>;
+  get3DCoverArt: (gameId: string) => Promise<{ success: boolean; data: any }>;
   getAsset: (asset: string) => Promise<object>;
 }
 
@@ -15,14 +15,14 @@ export interface GameObject {
   diskType: "CD" | "DVD";
   art?: {
     coverart3d?: string;
-    front_cover: string;
-    back_cover: string;
-    disc_icon: string;
-    spine_cover: string;
-    screen_1: string;
-    screen_2: string;
-    background: string;
-    logo: string;
+    front_cover?: string;
+    back_cover?: string;
+    disc_icon?: string;
+    spine_cover?: string;
+    screen_1?: string;
+    screen_2?: string;
+    background?: string;
+    logo?: string;
   };
 }
 

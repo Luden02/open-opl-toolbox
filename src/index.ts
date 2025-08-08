@@ -20,8 +20,6 @@ const createWindow = (): void => {
     width: 1280,
     minHeight: 768,
     minWidth: 1280,
-    maxWidth: 1920,
-    maxHeight: 1080,
     title: `OpenOPL Toolbox - ${PackageInfo.version} [by Luden]`,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,

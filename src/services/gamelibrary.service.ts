@@ -46,6 +46,7 @@ export class GameLibraryService {
   }
 
   chooseDirectory(): Promise<void> {
+    writeLogLine("Asking OS to open folder chooser...", "verbose", false);
     this.systemService.toggleIsLoading(true);
     return window.electronAPI.showOpenDialog().then((res) => {
       if (!res.canceled) {
@@ -67,7 +68,7 @@ export class GameLibraryService {
   }
 
   async loadLibraryFromDirectory(directory: string): Promise<void> {
-    writeLogLine(`Resetting LibraryData to clear state.`, "verbose", false);
+    writeLogLine(`Resetting LibraryData to clear state...`, "verbose", false);
 
     this.state = {
       ...this.state,
@@ -76,6 +77,8 @@ export class GameLibraryService {
       dvdGamesList: [],
       selectedGame: null,
     };
+
+    writeLogLine(`LibraryData cleared.`, "verbose", false);
 
     this.notifySubscribers();
 
@@ -100,8 +103,10 @@ export class GameLibraryService {
     type: "CD" | "DVD"
   ): Promise<GameObject[]> {
     try {
+      writeLogLine(`Reading directory ${path}, waiting...`, "verbose", false);
       const result = await window.electronAPI.readDirectory(path);
       writeLogLine(`Correctly loaded from: ${path}`, "verbose", false);
+      writeLogLine(`Passing files to GameObjectParser...`, "verbose", false);
       return this.parseToGameObject(result.files, type);
     } catch (error) {
       writeLogLine(
@@ -119,16 +124,22 @@ export class GameLibraryService {
     gameType: "CD" | "DVD"
   ) {
     writeLogLine(
-      "Parsing for type: " + gameType + " started.",
+      "Parsing for type: " + gameType + " started...",
       "verbose",
       false
     );
     const toSend: GameObject[] = [];
+    writeLogLine(
+      `Filtering for .iso files, ignoring the rest...`,
+      "verbose",
+      false
+    );
     files
       .filter(
         (file) => file.isDirectory === false && file.name.endsWith(".iso")
       )
       .forEach((iso: FileSystemItem) => {
+        writeLogLine(`Calculating size for ${iso.name}...`, "verbose", false);
         const formatSize = (bytes: number): string => {
           if (bytes >= 1024 * 1024 * 1024) {
             return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
@@ -138,6 +149,12 @@ export class GameLibraryService {
             return bytes + " bytes";
           }
         };
+
+        writeLogLine(
+          `${iso.name} - ${formatSize(iso.size || 0)}`,
+          "verbose",
+          false
+        );
 
         const gameObj: GameObject = {
           name: iso.name
@@ -149,8 +166,18 @@ export class GameLibraryService {
           diskType: gameType,
         };
 
+        window.electronAPI.get3DCoverArt(gameObj.gameId).then((res) => {
+          writeLogLine(
+            `Dinamically fetched remote art for display (${gameObj.gameId})`,
+            "verbose",
+            false
+          );
+          gameObj.art = { coverart3d: res.data };
+        });
+
         writeLogLine(
-          "Parsed game: " + JSON.stringify(gameObj),
+          "Correctly parsed game: " +
+            JSON.stringify({ ...gameObj, art: "..." }),
           "verbose",
           false
         );
@@ -167,7 +194,11 @@ export class GameLibraryService {
   }
 
   public onGameSelection = (game: GameObject) => {
-    console.log(game);
+    writeLogLine(
+      `Game has been selected from library: ${JSON.stringify({ ...game, art: undefined })}`,
+      "verbose",
+      false
+    );
     this.state.selectedGame = game;
     this.notifySubscribers();
   };

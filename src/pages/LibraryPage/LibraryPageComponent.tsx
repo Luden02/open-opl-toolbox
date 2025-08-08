@@ -71,7 +71,13 @@ class LibraryPageComponent extends Component<Props, State> {
               onGameRowClick={this.gameLibraryService.onGameSelection}
             />
           </GridItem>
-          <GridItem colSpan={3} h={"100%"}>
+          <GridItem
+            colSpan={3}
+            h={"100%"}
+            display="flex"
+            flexDirection="column"
+            justifyContent="flex-end"
+          >
             <GameDetailsComponent
               selectedGame={this.state.library.selectedGame}
             />
@@ -85,8 +91,33 @@ class LibraryPageComponent extends Component<Props, State> {
           >
             Load Directory
           </Button>
-          <Text className="directory">
+          <Text className="footerText">
             Current directory: {this.state.library.loadedDirectory || "None"}
+          </Text>
+          <Text className="footerText" marginLeft="auto">
+            Games:{" "}
+            {this.state.library.cdGamesList.length +
+              this.state.library.dvdGamesList.length}{" "}
+            | Total Size:{" "}
+            {(() => {
+              const allGames = [
+                ...this.state.library.cdGamesList,
+                ...this.state.library.dvdGamesList,
+              ];
+              const totalBytes = allGames.reduce((sum, game) => {
+                const sizeStr = game.size;
+                let bytes = 0;
+                if (sizeStr.includes("GB")) {
+                  bytes = parseFloat(sizeStr) * 1024 * 1024 * 1024;
+                } else if (sizeStr.includes("MB")) {
+                  bytes = parseFloat(sizeStr) * 1024 * 1024;
+                } else {
+                  bytes = parseFloat(sizeStr);
+                }
+                return sum + bytes;
+              }, 0);
+              return (totalBytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+            })()}
           </Text>
         </div>
       </div>
