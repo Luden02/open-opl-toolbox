@@ -55,7 +55,6 @@ export class GameLibraryService {
           "normal",
           false
         );
-        this.systemService.toggleIsLoading(false);
         return this.loadLibraryFromDirectory(res.filePaths[0]);
       }
       writeLogLine(
@@ -190,6 +189,8 @@ export class GameLibraryService {
       false
     );
 
+    this.systemService.toggleIsLoading(false);
+
     return toSend;
   }
 
@@ -201,5 +202,19 @@ export class GameLibraryService {
     );
     this.state.selectedGame = game;
     this.notifySubscribers();
+  };
+
+  onNewGameDetailsSave = (filePath: string, name: string, gameId: string) => {
+    this.systemService.toggleIsLoading(true);
+    writeLogLine(
+      `<onNewGameDetailsSave> Renaming [${filePath}] ---> [${gameId} - ${name}]`,
+      "normal",
+      false
+    );
+    return window.electronAPI.renameGame(filePath, name, gameId).then(() => {
+      if (this.state.loadedDirectory) {
+        this.loadLibraryFromDirectory(this.state.loadedDirectory);
+      }
+    });
   };
 }

@@ -8,4 +8,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   get3DCoverArt: (gameId: string) =>
     ipcRenderer.invoke("get-3d-coverart", gameId),
   getAsset: (asset: string) => ipcRenderer.invoke("get-asset", asset),
+  renameGame: (filePath: string, newGameName: string, newGameId: string) =>
+    ipcRenderer.invoke("rename-game", filePath, newGameName, newGameId),
 });

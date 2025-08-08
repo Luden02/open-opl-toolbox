@@ -80,6 +80,14 @@ class LibraryPageComponent extends Component<Props, State> {
           >
             <GameDetailsComponent
               selectedGame={this.state.library.selectedGame}
+              isLoading={this.state.isLoading}
+              onDetailsSave={(name: string, gameId: string) =>
+                this.gameLibraryService.onNewGameDetailsSave(
+                  `${this.state.library.loadedDirectory}/${this.state.library.selectedGame.diskType}/${this.state.library.selectedGame.gameId}.${this.state.library.selectedGame.name}.iso`,
+                  name,
+                  gameId
+                )
+              }
             />
           </GridItem>
         </Grid>

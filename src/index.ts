@@ -72,6 +72,32 @@ ipcMain.handle("show-open-dialog", async (event, options = {}) => {
   return result;
 });
 
+ipcMain.handle(
+  "rename-game",
+  async (event, filePath: string, newGameName: string, newGameId: string) => {
+    try {
+      const originalPath = filePath;
+      const directory = path.dirname(originalPath);
+      const extension = path.extname(originalPath);
+      const newFileName = `${newGameId}.${newGameName}${extension}`;
+      const newPath = path.join(directory, newFileName);
+
+      await fs.rename(originalPath, newPath);
+
+      return {
+        success: true,
+        oldPath: originalPath,
+        newPath: newPath,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  }
+);
+
 ipcMain.handle("get-3d-coverart", async (event, gameId: string) => {
   try {
     // Convert gameId: replace _ with - and remove .

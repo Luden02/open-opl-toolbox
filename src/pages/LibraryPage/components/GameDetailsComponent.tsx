@@ -4,11 +4,25 @@ import React from "react";
 
 interface GameDetailsComponentProps {
   selectedGame: GameObject;
+  isLoading?: boolean;
+  onDetailsSave: (name: string, gameId: string) => void;
 }
 
 const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
   selectedGame,
+  isLoading = false,
+  onDetailsSave,
 }) => {
+  const [newGameName, setNewGameName] = React.useState(
+    selectedGame?.name || ""
+  );
+  const [newGameId, setNewGameId] = React.useState(selectedGame?.gameId || "");
+
+  React.useEffect(() => {
+    setNewGameName(selectedGame?.name || "");
+    setNewGameId(selectedGame?.gameId || "");
+  }, [selectedGame]);
+
   return (
     <div style={{ height: "100%" }}>
       <Grid
@@ -37,7 +51,12 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <Field.Label>Game Name</Field.Label>
-            <Input placeholder="" variant="subtle" />
+            <Input
+              placeholder=""
+              variant="subtle"
+              value={newGameName}
+              onChange={($event) => setNewGameName($event.target.value)}
+            />
           </Field.Root>
         </GridItem>
         <GridItem colSpan={6}>
@@ -45,7 +64,12 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <Field.Label>GameID</Field.Label>
-            <Input placeholder="" variant="subtle" />
+            <Input
+              placeholder=""
+              variant="subtle"
+              value={newGameId}
+              onChange={($event) => setNewGameId($event.target.value)}
+            />
           </Field.Root>
         </GridItem>
         <GridItem
@@ -54,16 +78,32 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
           alignItems={"end"}
           justifyContent={"center"}
         >
-          <Button w={"100%"}>Save Name & ID</Button>
+          <Button
+            w={"100%"}
+            disabled={!selectedGame}
+            loading={isLoading}
+            onClick={() => onDetailsSave(newGameName, newGameId)}
+          >
+            Save Name & ID
+          </Button>
         </GridItem>
         <GridItem colSpan={12}>
-          <Button w={"100%"}>Auto-Import Art</Button>
+          <Button w={"100%"} disabled={!selectedGame} loading={isLoading}>
+            Auto-Import Art
+          </Button>
         </GridItem>
         <GridItem colSpan={12}>
-          <Button w={"100%"}>Purge All Art</Button>
+          <Button w={"100%"} disabled={!selectedGame} loading={isLoading}>
+            Purge All Art
+          </Button>
         </GridItem>
         <GridItem colSpan={12}>
-          <Button backgroundColor={"var(--red)"} w={"100%"}>
+          <Button
+            backgroundColor={"var(--red)"}
+            w={"100%"}
+            disabled={!selectedGame}
+            loading={isLoading}
+          >
             Delete Game
           </Button>
         </GridItem>

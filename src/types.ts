@@ -5,6 +5,11 @@ export interface ElectronAPI {
   readDirectory: (dirPath: string) => Promise<DirectoryContents>;
   get3DCoverArt: (gameId: string) => Promise<{ success: boolean; data: any }>;
   getAsset: (asset: string) => Promise<object>;
+  renameGame: (
+    filePath: string,
+    newGameName: string,
+    newGameId: string
+  ) => Promise<object>;
 }
 
 export interface GameObject {
