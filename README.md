@@ -25,17 +25,18 @@ Electron and React were used to make development and maintenance of the codebase
 
 ### Short Term (Next Release)
 
-- [ ] Game metadata editing
+- [x] Game artwork management and display
+- [x] Game name and gameId renaming
+- [ ] Single-File Import and Batch Import of games in .iso or bin/cue format
 - [ ] Auto-conversion on import to pattern-named .iso file
-- [ ] Game artwork management and display
 - [ ] Search and filter functionality
 
 ### Long Term
 
-- [ ] Automatic metadata import through API Call
 - [ ] PS1 and APPS support
 - [ ] Cheats Management Support
 - [ ] CFG (TBD)
+- and more...
 
 > **Note**: This roadmap is subject to change based on community feedback and development priorities. Features may be added, modified, or reprioritized.
 
