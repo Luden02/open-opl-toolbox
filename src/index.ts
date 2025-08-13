@@ -79,7 +79,9 @@ ipcMain.handle(
       const originalPath = filePath;
       const directory = path.dirname(originalPath);
       const extension = path.extname(originalPath);
-      const newFileName = `${newGameId}.${newGameName}${extension}`;
+      const newFileName = newGameId
+        ? `${newGameId}.${newGameName}${extension}`
+        : `${newGameName}${extension}`;
       const newPath = path.join(directory, newFileName);
 
       await fs.rename(originalPath, newPath);
@@ -98,9 +100,43 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle("import-gameart", async (event, gameId: string) => {
-  console.log("import-gameart");
-});
+ipcMain.handle(
+  "import-gameart",
+  async (event, gameId: string, dirPath: string) => {
+    try {
+      const items = await fs.readdir(dirPath, { withFileTypes: true });
+      const matchingFiles = [];
+
+      for (const item of items) {
+        if (item.name.startsWith(".")) {
+          continue;
+        }
+
+        if (item.isFile() && item.name.includes(gameId)) {
+          const filenameParts = item.name.split("_");
+          const type =
+            filenameParts.length > 2 ? filenameParts.slice(2).join("_") : "";
+
+          matchingFiles.push({
+            dir: dirPath,
+            filename: item.name,
+            type: type.split(".")[0],
+          });
+        }
+      }
+
+      return {
+        success: true,
+        files: matchingFiles,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  }
+);
 
 ipcMain.handle("get-3d-coverart", async (event, gameId: string) => {
   try {

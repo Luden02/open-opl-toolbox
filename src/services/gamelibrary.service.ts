@@ -46,7 +46,11 @@ export class GameLibraryService {
   }
 
   chooseDirectory(): Promise<void> {
-    writeLogLine("Asking OS to open folder chooser...", "verbose", false);
+    writeLogLine(
+      "<chooseDirectory> Asking OS to open folder chooser...",
+      "verbose",
+      false
+    );
     this.systemService.toggleIsLoading(true);
     return window.electronAPI.showOpenDialog().then((res) => {
       if (!res.canceled) {
@@ -58,7 +62,7 @@ export class GameLibraryService {
         return this.loadLibraryFromDirectory(res.filePaths[0]);
       }
       writeLogLine(
-        "Directory prompt has been canceled by user.",
+        "<chooseDirectory> Directory prompt has been canceled by user.",
         "verbose",
         false
       );
@@ -67,7 +71,11 @@ export class GameLibraryService {
   }
 
   async loadLibraryFromDirectory(directory: string): Promise<void> {
-    writeLogLine(`Resetting LibraryData to clear state...`, "verbose", false);
+    writeLogLine(
+      `<loadLibraryFromDirectory> Resetting LibraryData to clear state...`,
+      "verbose",
+      false
+    );
 
     this.state = {
       ...this.state,
@@ -77,7 +85,11 @@ export class GameLibraryService {
       selectedGame: null,
     };
 
-    writeLogLine(`LibraryData cleared.`, "verbose", false);
+    writeLogLine(
+      `<loadLibraryFromDirectory> LibraryData cleared.`,
+      "verbose",
+      false
+    );
 
     this.notifySubscribers();
 
@@ -102,10 +114,22 @@ export class GameLibraryService {
     type: "CD" | "DVD"
   ): Promise<GameObject[]> {
     try {
-      writeLogLine(`Reading directory ${path}, waiting...`, "verbose", false);
+      writeLogLine(
+        `<loadGamesFromDir> Reading directory ${path}, waiting...`,
+        "verbose",
+        false
+      );
       const result = await window.electronAPI.readDirectory(path);
-      writeLogLine(`Correctly loaded from: ${path}`, "verbose", false);
-      writeLogLine(`Passing files to GameObjectParser...`, "verbose", false);
+      writeLogLine(
+        `<loadGamesFromDir> Correctly loaded from: ${path}`,
+        "verbose",
+        false
+      );
+      writeLogLine(
+        `<loadGamesFromDir> Passing files to GameObjectParser...`,
+        "verbose",
+        false
+      );
       return this.parseToGameObject(result.files, type);
     } catch (error) {
       writeLogLine(
@@ -123,65 +147,135 @@ export class GameLibraryService {
     gameType: "CD" | "DVD"
   ) {
     writeLogLine(
-      "Parsing for type: " + gameType + " started...",
+      "<parseToGameObject> Parsing for type: " + gameType + " started...",
       "verbose",
       false
     );
-    const toSend: GameObject[] = [];
     writeLogLine(
-      `Filtering for .iso files, ignoring the rest...`,
+      `<parseToGameObject> Filtering for .iso files, ignoring the rest...`,
       "verbose",
       false
     );
-    files
-      .filter(
-        (file) => file.isDirectory === false && file.name.endsWith(".iso")
-      )
-      .forEach((iso: FileSystemItem) => {
-        writeLogLine(`Calculating size for ${iso.name}...`, "verbose", false);
-        const formatSize = (bytes: number): string => {
-          if (bytes >= 1024 * 1024 * 1024) {
-            return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
-          } else if (bytes >= 1024 * 1024) {
-            return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-          } else {
-            return bytes + " bytes";
-          }
-        };
 
+    const isoFiles = files.filter(
+      (file) => file.isDirectory === false && file.name.endsWith(".iso")
+    );
+
+    const formatSize = (bytes: number): string => {
+      if (bytes >= 1024 * 1024 * 1024) {
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+      } else if (bytes >= 1024 * 1024) {
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+      } else {
+        return bytes + " bytes";
+      }
+    };
+
+    const toSend: GameObject[] = [];
+
+    for (const iso of isoFiles) {
+      writeLogLine(
+        `<parseToGameObject> Calculating size for ${iso.name}...`,
+        "verbose",
+        false
+      );
+
+      writeLogLine(
+        `${iso.name} - ${formatSize(iso.size || 0)}`,
+        "verbose",
+        false
+      );
+
+      const gameObj: GameObject = {
+        name: iso.name.replace(/^[A-Z]{4}_\d+\.\d+\./, "").replace(".iso", ""),
+        gameId:
+          RegExp(/^([A-Z]{4}_\d+\.\d+)/).exec(iso.name)?.[1] ||
+          "invalid file name!",
+        isValid: !!RegExp(/^([A-Z]{4}_\d+\.\d+)/).exec(iso.name)?.[1],
+        type: "PS2",
+        size: formatSize(iso.size || 0),
+        diskType: gameType,
+      };
+
+      if (gameObj.gameId === "invalid file name!") {
         writeLogLine(
-          `${iso.name} - ${formatSize(iso.size || 0)}`,
-          "verbose",
-          false
+          `Gamefile .iso is named incorrectly! (${gameObj.name}) abort art fetch!`,
+          "normal",
+          true
         );
-
-        const gameObj: GameObject = {
-          name: iso.name
-            .replace(/^[A-Z]{4}_\d+\.\d+\./, "")
-            .replace(".iso", ""),
-          gameId: RegExp(/^([A-Z]{4}_\d+\.\d+)/).exec(iso.name)?.[1] || "",
-          type: "PS2",
-          size: formatSize(iso.size || 0),
-          diskType: gameType,
+      } else {
+        gameObj.art = {
+          coverart3d: "",
+          front_cover: false,
+          back_cover: false,
+          disc_icon: false,
+          spine_cover: false,
+          screen_1: false,
+          screen_2: false,
+          background: false,
         };
+        await Promise.all([
+          window.electronAPI.get3DCoverArt(gameObj.gameId).then((res) => {
+            writeLogLine(
+              `<parseToGameObject> Dinamically fetched remote art for display (${gameObj.gameId})`,
+              "verbose",
+              false
+            );
+            gameObj.art.coverart3d = res.data;
+          }),
+          window.electronAPI
+            .importGameArt(gameObj.gameId, `${this.state.loadedDirectory}/ART`)
+            .then((res: any) => {
+              writeLogLine(
+                `Fetching already available game art for  (${gameObj.gameId})`,
+                "normal",
+                false
+              );
 
-        window.electronAPI.get3DCoverArt(gameObj.gameId).then((res) => {
-          writeLogLine(
-            `Dinamically fetched remote art for display (${gameObj.gameId})`,
-            "verbose",
-            false
-          );
-          gameObj.art = { coverart3d: res.data };
-        });
+              if (res.success) {
+                res.files.forEach((file: any) => {
+                  switch (file.type) {
+                    case "COV": {
+                      gameObj.art.front_cover = true;
+                      break;
+                    }
+                    case "COV2": {
+                      gameObj.art.back_cover = true;
+                      break;
+                    }
+                    case "ICO": {
+                      gameObj.art.disc_icon = true;
+                      break;
+                    }
+                    case "LAB": {
+                      gameObj.art.spine_cover = true;
+                      break;
+                    }
+                    case "SCR": {
+                      gameObj.art.screen_1 = true;
+                      break;
+                    }
+                    case "SCR_00": {
+                      gameObj.art.screen_1 = true;
+                      break;
+                    }
+                    case "SCR_01": {
+                      gameObj.art.screen_2 = true;
+                      break;
+                    }
+                    case "BG": {
+                      gameObj.art.background = true;
+                      break;
+                    }
+                  }
+                });
+              }
+            }),
+        ]);
+      }
 
-        writeLogLine(
-          "Correctly parsed game: " +
-            JSON.stringify({ ...gameObj, art: "..." }),
-          "verbose",
-          false
-        );
-        toSend.push(gameObj);
-      });
+      toSend.push(gameObj);
+    }
 
     writeLogLine(
       "Parsed " + toSend.length + " " + gameType + " games",
@@ -194,7 +288,7 @@ export class GameLibraryService {
     return toSend;
   }
 
-  public onGameSelection = (game: GameObject) => {
+  public onGameSelection = (game: GameObject, isValid: boolean) => {
     writeLogLine(
       `Game has been selected from library: ${JSON.stringify({ ...game, art: undefined })}`,
       "verbose",
@@ -204,8 +298,27 @@ export class GameLibraryService {
     this.notifySubscribers();
   };
 
-  onNewGameDetailsSave = (filePath: string, name: string, gameId: string) => {
+  onNewGameDetailsSave = (
+    filePath: string,
+    name: string,
+    gameId: string,
+    namingFromInvalid: boolean
+  ) => {
     this.systemService.toggleIsLoading(true);
+    if (namingFromInvalid) {
+      writeLogLine(
+        `<onNewGameDetailsSave> Renaming [${filePath}] ---> [${name}]`,
+        "normal",
+        false
+      );
+      return window.electronAPI
+        .renameGame(filePath, name, undefined)
+        .then(() => {
+          if (this.state.loadedDirectory) {
+            this.loadLibraryFromDirectory(this.state.loadedDirectory);
+          }
+        });
+    }
     writeLogLine(
       `<onNewGameDetailsSave> Renaming [${filePath}] ---> [${gameId} - ${name}]`,
       "normal",

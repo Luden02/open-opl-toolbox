@@ -4,4 +4,8 @@
   &.active {
     background-color: var(--grey-100);
   }
+
+  &.invalid {
+    background-color: var(--red-50);
+  }
 }

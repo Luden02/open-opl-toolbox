@@ -10,6 +10,7 @@ export interface ElectronAPI {
     newGameName: string,
     newGameId: string
   ) => Promise<object>;
+  importGameArt: (gameId: string, dirpath: string) => Promise<object>;
 }
 
 export interface GameObject {
@@ -18,16 +19,17 @@ export interface GameObject {
   type: "PS2" | "PS1" | "APP";
   size: string;
   diskType: "CD" | "DVD";
+  isValid: boolean;
   art?: {
     coverart3d?: string;
-    front_cover?: string;
-    back_cover?: string;
-    disc_icon?: string;
-    spine_cover?: string;
-    screen_1?: string;
-    screen_2?: string;
-    background?: string;
-    logo?: string;
+    front_cover?: boolean;
+    back_cover?: boolean;
+    disc_icon?: boolean;
+    spine_cover?: boolean;
+    screen_1?: boolean;
+    screen_2?: boolean;
+    background?: boolean;
+    logo?: boolean;
   };
 }
 

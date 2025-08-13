@@ -5,7 +5,11 @@ import React from "react";
 interface GameDetailsComponentProps {
   selectedGame: GameObject;
   isLoading?: boolean;
-  onDetailsSave: (name: string, gameId: string) => void;
+  onDetailsSave: (
+    name: string,
+    gameId: string,
+    namingFromInvalid: boolean
+  ) => void;
 }
 
 const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
@@ -68,6 +72,7 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
               placeholder=""
               variant="subtle"
               value={newGameId}
+              disabled={!selectedGame?.isValid}
               onChange={($event) => setNewGameId($event.target.value)}
             />
           </Field.Root>
@@ -82,13 +87,19 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
             w={"100%"}
             disabled={!selectedGame}
             loading={isLoading}
-            onClick={() => onDetailsSave(newGameName, newGameId)}
+            onClick={() => {
+              onDetailsSave(newGameName, newGameId, !selectedGame.isValid);
+            }}
           >
             Save Name & ID
           </Button>
         </GridItem>
         <GridItem colSpan={12}>
-          <Button w={"100%"} disabled={!selectedGame} loading={isLoading}>
+          <Button
+            w={"100%"}
+            disabled={!selectedGame || !selectedGame?.isValid}
+            loading={isLoading}
+          >
             Auto-Import ART & CFG
           </Button>
         </GridItem>
@@ -96,7 +107,7 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
           <Button
             w={"100%"}
             backgroundColor={"var(--red-800)"}
-            disabled={!selectedGame}
+            disabled={!selectedGame || !selectedGame?.isValid}
             loading={isLoading}
           >
             Purge All ART & CFG
@@ -106,7 +117,7 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
           <Button
             backgroundColor={"var(--red-800)"}
             w={"100%"}
-            disabled={!selectedGame}
+            disabled={!selectedGame || !selectedGame?.isValid}
             loading={isLoading}
           >
             Delete Game

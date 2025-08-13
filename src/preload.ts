@@ -10,6 +10,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getAsset: (asset: string) => ipcRenderer.invoke("get-asset", asset),
   renameGame: (filePath: string, newGameName: string, newGameId: string) =>
     ipcRenderer.invoke("rename-game", filePath, newGameName, newGameId),
-  importGameArtAndGameCfg: (gameId: string) =>
-    ipcRenderer.invoke("import-gameart", gameId),
+  importGameArt: (gameId: string, dirpath: string) =>
+    ipcRenderer.invoke("import-gameart", gameId, dirpath),
 });

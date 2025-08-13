@@ -6,7 +6,7 @@ import "./GameTableStyle.css";
 
 interface GameTableComponentProps {
   library: Library;
-  onGameRowClick: (game: GameObject) => void;
+  onGameRowClick: (game: GameObject, isValid: boolean) => void;
 }
 
 const GameTableComponent: React.FC<GameTableComponentProps> = ({
@@ -14,10 +14,16 @@ const GameTableComponent: React.FC<GameTableComponentProps> = ({
   onGameRowClick,
 }) => {
   return (
-    <Container padding={0} margin={0} h={"100%"}>
-      <Table.ScrollArea borderWidth="1px" h={"100%"} overflowX="auto">
+    <Container padding={0} margin={0} maxW={"100%"} h={"100%"} w={"100%"}>
+      <Table.ScrollArea
+        borderWidth="1px"
+        h={"100%"}
+        w={"100%"}
+        overflowX="auto"
+      >
         <Table.Root
           size="sm"
+          w={"100%"}
           showColumnBorder
           stickyHeader
           interactive
@@ -42,9 +48,21 @@ const GameTableComponent: React.FC<GameTableComponentProps> = ({
           <Table.Body>
             {[...library.cdGamesList, ...library.dvdGamesList].map((game) => (
               <Table.Row
-                className={`game-row${library.selectedGame?.gameId === game.gameId ? " active" : ""}`}
+                className={`game-row${
+                  game.gameId === "invalid file name!"
+                    ? library.selectedGame?.name === game.name
+                      ? " active"
+                      : ""
+                    : library.selectedGame?.gameId === game.gameId
+                      ? " active"
+                      : ""
+                }${game.gameId === "invalid file name!" ? " invalid" : ""}`}
                 key={game.gameId}
-                onClick={() => onGameRowClick(game)}
+                onClick={() =>
+                  game.gameId !== "invalid file name!"
+                    ? onGameRowClick(game, true)
+                    : onGameRowClick(game, false)
+                }
               >
                 <Table.Cell
                   overflow="hidden"
@@ -57,13 +75,13 @@ const GameTableComponent: React.FC<GameTableComponentProps> = ({
                 <Table.Cell>{game.type}</Table.Cell>
                 <Table.Cell>{game.size}</Table.Cell>
                 <Table.Cell>{game.diskType}</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
-                <Table.Cell>NO</Table.Cell>
+                <Table.Cell>{game?.art?.front_cover ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.back_cover ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.disc_icon ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.spine_cover ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.screen_1 ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.screen_2 ? "YES" : "NO"}</Table.Cell>
+                <Table.Cell>{game?.art?.logo ? "YES" : "NO"}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
