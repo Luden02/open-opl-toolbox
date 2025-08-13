@@ -12,4 +12,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("rename-game", filePath, newGameName, newGameId),
   importGameArt: (gameId: string, dirpath: string) =>
     ipcRenderer.invoke("import-gameart", gameId, dirpath),
+  downloadGameArt: (gameId: string, dirpath: string) =>
+    ipcRenderer.invoke("download-gameart", gameId, dirpath),
 });

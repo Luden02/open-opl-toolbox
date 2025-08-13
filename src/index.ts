@@ -138,6 +138,67 @@ ipcMain.handle(
   }
 );
 
+ipcMain.handle(
+  "download-gameart",
+  async (event, gameId: string, dirPath: string) => {
+    // https://raw.githubusercontent.com/Luden02/psx-ps2-opl-art-database/main/PS2/(gameId)/gameId_COV.png
+    try {
+      const baseUrl =
+        "https://raw.githubusercontent.com/Luden02/psx-ps2-opl-art-database/main/PS2";
+      const artTypes = [
+        "COV",
+        "COV2",
+        "ICO",
+        "LAB",
+        "SCR",
+        "SCR_00",
+        "SCR_01",
+        "BG",
+      ];
+      const downloadedFiles = [];
+
+      for (const artType of artTypes) {
+        try {
+          const imageUrl = `${baseUrl}/${gameId}/${gameId}_${artType}.png`;
+          const response = await fetch(imageUrl);
+
+          if (response.ok) {
+            const arrayBuffer = await response.arrayBuffer();
+            const imageBuffer = Buffer.from(arrayBuffer);
+            const base64 = imageBuffer.toString("base64");
+
+            downloadedFiles.push({
+              type: artType,
+              data: `data:image/png;base64,${base64}`,
+              url: imageUrl,
+              filename: `${gameId}_${artType}.png`,
+            });
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+
+      for (const file of downloadedFiles) {
+        const filePath = path.join(dirPath, file.filename);
+        const base64Data = file.data.replace(/^data:image\/png;base64,/, "");
+        const imageBuffer = Buffer.from(base64Data, "base64");
+        await fs.writeFile(filePath, imageBuffer);
+      }
+
+      return {
+        success: true,
+        filesDownloaded: downloadedFiles.length,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  }
+);
+
 ipcMain.handle("get-3d-coverart", async (event, gameId: string) => {
   try {
     // Convert gameId: replace _ with - and remove .

@@ -95,6 +95,12 @@ class LibraryPageComponent extends Component<Props, State> {
                   namingFromInvalid
                 )
               }
+              onDownloadArt={(gameId: string) => {
+                this.gameLibraryService.downloadAllGameArt(
+                  gameId,
+                  `${this.state.library.loadedDirectory}`
+                );
+              }}
             />
           </GridItem>
         </Grid>

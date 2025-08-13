@@ -298,7 +298,7 @@ export class GameLibraryService {
     this.notifySubscribers();
   };
 
-  onNewGameDetailsSave = (
+  public onNewGameDetailsSave = (
     filePath: string,
     name: string,
     gameId: string,
@@ -330,4 +330,18 @@ export class GameLibraryService {
       }
     });
   };
+
+  public downloadAllGameArt(gameId: string, dirpath: string) {
+    this.systemService.toggleIsLoading(true);
+    window.electronAPI
+      .downloadGameArt(gameId, `${dirpath}/ART`)
+      .then((res: any) => {
+        this.systemService.toggleIsLoading(false);
+        if (this.state.loadedDirectory) {
+          const selectedGame = this.state.selectedGame;
+          this.loadLibraryFromDirectory(this.state.loadedDirectory);
+          this.onGameSelection(selectedGame, true);
+        }
+      });
+  }
 }

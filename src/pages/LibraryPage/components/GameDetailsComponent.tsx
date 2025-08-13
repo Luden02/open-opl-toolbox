@@ -10,12 +10,14 @@ interface GameDetailsComponentProps {
     gameId: string,
     namingFromInvalid: boolean
   ) => void;
+  onDownloadArt: (gameId: string) => void;
 }
 
 const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
   selectedGame,
   isLoading = false,
   onDetailsSave,
+  onDownloadArt,
 }) => {
   const [newGameName, setNewGameName] = React.useState(
     selectedGame?.name || ""
@@ -99,6 +101,9 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
             w={"100%"}
             disabled={!selectedGame || !selectedGame?.isValid}
             loading={isLoading}
+            onClick={() => {
+              onDownloadArt(selectedGame.gameId);
+            }}
           >
             Auto-Import ART & CFG
           </Button>
@@ -107,7 +112,7 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
           <Button
             w={"100%"}
             backgroundColor={"var(--red-800)"}
-            disabled={!selectedGame || !selectedGame?.isValid}
+            disabled={!selectedGame || !selectedGame?.isValid || true}
             loading={isLoading}
           >
             Purge All ART & CFG
@@ -117,7 +122,7 @@ const GameDetailsComponent: React.FC<GameDetailsComponentProps> = ({
           <Button
             backgroundColor={"var(--red-800)"}
             w={"100%"}
-            disabled={!selectedGame || !selectedGame?.isValid}
+            disabled={!selectedGame || !selectedGame?.isValid || true}
             loading={isLoading}
           >
             Delete Game

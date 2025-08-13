@@ -11,6 +11,7 @@ export interface ElectronAPI {
     newGameId: string
   ) => Promise<object>;
   importGameArt: (gameId: string, dirpath: string) => Promise<object>;
+  downloadGameArt: (gameId: string, dirpath: string) => Promise<object>;
 }
 
 export interface GameObject {
