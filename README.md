@@ -5,77 +5,84 @@
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
 
-OpenOPLToolbox is an open-source and cross-platform way to manage your OPL game collection.
+OpenOPL Toolbox – A modern, cross-platform way to manage your OPL game collection.
 
-This project was born from a lack of support of OPLManager for macOS and Linux operating systems, so I decided to give the community a more modern and better-supported way of handling their OPL library.
+# 📖 About
 
-This project does not aim to replace OPLManager and never will—it's just another way of doing things that some people might prefer.
+OpenOPL Toolbox is an open-source and cross-platform application for organizing your PlayStation 2 game library.
 
-Electron and React were used to make development and maintenance of the codebase much faster and easily readable by developers skilled in JavaScript who might want to contribute and to make it visually pleasing in a way.
+It was created to fill the gap left by OPLManager, which lacks macOS and Linux support.
+The goal isn’t to replace OPLManager, but to offer an alternative — one that’s modern, intuitive, and built with technologies familiar to JavaScript developers.
 
-# Features and Roadmap
+# ✨ Features
 
-## ✅ Current Features
+## ✅ Current
 
-- **Cross-Platform Support**: Works on Windows, macOS, and Linux
-- **OPL Library Management**: Organize and manage your PlayStation 2 game collection
-- **Modern Interface**: Clean, intuitive UI built with React and Chakra UI
+- Cross-Platform: Windows, macOS, and Linux support
+- Game Library Management: View your OPL collection and rename your files.
+- Modern UI: Built with React + Chakra UI for a clean, user-friendly experience
+- Game artwork: "Auto-Import-from-Web" Functionality
+- Rename: Game Name or GameId Renaming
 
 ## 🚧 Roadmap
 
-### Short Term (Next Release)
+### Short Term
 
-- [x] Game artwork management and display
-- [x] Game name and gameId renaming
-- [ ] Single-File Import and Batch Import of games in .iso or bin/cue format
-- [ ] Auto-conversion on import to pattern-named .iso file
-- [ ] Search and filter functionality
+- Single-file & batch game import (.iso / .bin.cue)
+- Auto-rename imports to pattern-based .iso
+- Search & filter games
 
 ### Long Term
 
-- [ ] PS1 and APPS support
-- [ ] Cheats Management Support
-- [ ] CFG (TBD)
-- and more...
+- PS1 and APPS support
+- Cheats management
+- CFG support (TBD)
+- Additional community-requested features
 
-> **Note**: This roadmap is subject to change based on community feedback and development priorities. Features may be added, modified, or reprioritized.
+📝 The roadmap evolves based on feedback and development priorities.
 
-# How to Use
+## 💻 Installation
 
-## Installation
+Grab the latest release from the Releases page. [Releases](https://github.com/StefanAdrianNita/open-opl-toolbox/releases) page.
 
-Download the latest release for your operating system from the [Releases](https://github.com/StefanAdrianNita/open-opl-toolbox/releases) page.
+### 🐧 Linux
 
-### Windows
+1. Download the **Linux `.zip`** file.
+2. Extract it.
+3. Run the `open-opl-toolbox` file.
 
-1. Download the `.exe` installer
-2. Run the installer and follow the setup wizard
-3. Launch OpenOPLToolbox from the Start Menu or desktop shortcut
+---
 
-### macOS
+### 🍏 macOS
 
-1. Download the `.dmg` file
-2. Open the DMG and drag OpenOPLToolbox to your Applications folder
-3. Launch from Applications or Spotlight
+1. Download the `.dmg` file for your architecture:
+   - **x64** (Intel Macs)
+   - **arm64** (Apple Silicon — _recommended and tested_)
+2. Open the `.dmg` file.
+3. Drag **CrossOPL Toolbox** to your **Applications** folder.
+4. Run the app.
 
-### Linux
+---
 
-1. Download the `.AppImage` file
-2. Make it executable: `chmod +x OpenOPLToolbox-*.AppImage`
-3. Run the AppImage directly or integrate it with your desktop environment
+### 🪟 Windows
 
-## Getting Started
+1. Download the `setup.exe`.
+2. Run it — after some loading time, you'll find the app on your **Desktop**.  
+   _(A fully portable `.exe` is not available yet.)_
+
+## 🚀 Getting Started
 
 1. Launch OpenOPLToolbox
 2. Select your OPL Library root folder (internal directory or external drive)
-3. Use the interface to organize, and manage your game collection
-4. Configure game settings and artwork as needed
+3. Use the interface to see, and manage your game collection
+4. Rename your files or grab your artwork!
+5. Enjoy!
 
-# License
+# 📜 License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
-# Contribution
+# 🤝 Contributing
 
 Contributions are welcome! Here's how you can help improve OpenOPLToolbox:
 
@@ -91,7 +98,7 @@ Contributions are welcome! Here's how you can help improve OpenOPLToolbox:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/StefanAdrianNita/open-opl-toolbox.git
+   git clone https://github.com/Luden02/open-opl-toolbox.git
    cd open-opl-toolbox
    ```
 
