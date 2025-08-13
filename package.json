@@ -1,7 +1,7 @@
 {
   "name": "open-opl-toolbox",
   "productName": "open-opl-toolbox",
-  "version": "0.2.4",
+  "version": "0.3.0-alpha.0",
   "description": "An open-source and cross-platform toolbox for your OpenPS2Loader (OPL) needs",
   "main": ".webpack/main",
   "scripts": {
@@ -13,8 +13,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "Stefan Adrian Nita",
-    "email": "stefanadrian.nita@icloud.com"
+    "name": "Luden02",
+    "email": "Luden02@users.noreply.github.com"
   },
   "license": "GPL-3.0-only",
   "devDependencies": {
