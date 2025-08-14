@@ -16,6 +16,17 @@ The goal isn’t to replace OPLManager, but to offer an alternative — one that
 
 # ✨ Features
 
+## 📂 Supported Filesystems
+
+Currently, OpenOPL Toolbox supports any directory that your operating system can mount.
+This means you can work with:
+   -	MX4SIO (SD card adapters)
+   - USB drives (FAT32 / exFAT / NTFS, depending on your OS)
+   -	Internal folders on your PC or Mac
+
+💡 Note: Direct access to PS2-formatted internal HDDs (APA / PFS) is not yet supported, but it’s on our research and development roadmap for future versions.
+
+
 ## ✅ Current
 
 - Cross-Platform: Windows, macOS, and Linux support
