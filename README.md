@@ -22,6 +22,7 @@ Currently, OpenOPL Toolbox supports any directory that your operating system can
 This means you can work with:
    -	MX4SIO (SD card adapters)
    - USB drives (FAT32 / exFAT / NTFS, depending on your OS)
+   - exFAT formatted HDDs connected through SATA-to-USB adapters
    -	Internal folders on your PC or Mac
 
 💡 Note: Direct access to PS2-formatted internal HDDs (APA / PFS) is not yet supported, but it’s on our research and development roadmap for future versions.
