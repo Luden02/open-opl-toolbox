@@ -41,7 +41,7 @@
       "output": "build"
     },
     "win": {
-      "icon": "assets/images/icon.ico",
+      "icon": "assets/applogo/icon_256x256.png",
       "target": [
         {
           "target": "portable",
@@ -52,9 +52,14 @@
       ]
     },
     "mac": {
-      "icon": "assets/images/icon.icns",
+      "icon": "assets/applogo/icon_512x512.png",
       "target": [
-        "dmg"
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
       ],
       "hardenedRuntime": true
     },
@@ -74,7 +79,7 @@
         }
       ],
       "category": "Utility",
-      "icon": "assets/images/linux-icon.png",
+      "icon": "assets/applogo/icon_512x512.png",
       "maintainer": "Luden02 <github.com.overtime522@passmail.com>",
       "vendor": "Luden02"
     }
