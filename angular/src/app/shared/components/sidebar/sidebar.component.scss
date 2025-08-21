@@ -1,0 +1,144 @@
+.content {
+  background-color: var(--grey-25);
+  height: 100vh;
+  padding-top: 12px;
+  border-right: 1px solid var(--grey-200);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  flex: 1;
+  .button {
+    display: flex;
+    width: calc(100% - 24px);
+    gap: 12px;
+    align-items: center;
+    justify-content: start;
+    align-content: center;
+    margin-left: 12px;
+    padding: 12px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--accent-blue-50);
+    border-radius: 4px;
+    color: var(--grey-700);
+
+    .text {
+      align-content: center;
+    }
+
+    &:hover {
+      background-color: var(--accent-blue-25);
+      border-color: var(--accent-blue-100);
+      color: var(--accent-blue-700);
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    &:active {
+      background-color: var(--accent-blue-50);
+      border-color: var(--accent-blue-200);
+      color: var(--accent-blue-900);
+      outline: 2px solid var(--accent-blue-200);
+      outline-offset: 2px;
+    }
+
+    &.active {
+      background-color: var(--accent-blue-50);
+      border-color: var(--accent-blue-200);
+      color: var(--accent-blue-900);
+    }
+  }
+}
+
+.directory {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  .button {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    padding: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--accent-blue-50);
+    border-radius: 4px;
+    color: var(--grey-700);
+
+    &:hover {
+      background-color: var(--accent-blue-25);
+      border-color: var(--accent-blue-100);
+      color: var(--accent-blue-700);
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    &.full {
+      width: 100%;
+      display: block;
+
+      &:hover {
+        background-color: var(--accent-blue-25);
+        border-color: var(--accent-blue-100);
+        color: var(--accent-blue-700);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+      }
+
+      &:active {
+        background-color: var(--accent-blue-50);
+        border-color: var(--accent-blue-200);
+        color: var(--accent-blue-900);
+        outline: 2px solid var(--accent-blue-200);
+        outline-offset: 2px;
+      }
+    }
+
+    &.half {
+      width: 50%;
+      display: inline-block;
+
+      &:hover {
+        background-color: var(--accent-blue-25);
+        border-color: var(--accent-blue-100);
+        color: var(--accent-blue-700);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+      }
+
+      &:active {
+        background-color: var(--accent-blue-50);
+        border-color: var(--accent-blue-200);
+        color: var(--accent-blue-900);
+        outline: 2px solid var(--accent-blue-200);
+        outline-offset: 2px;
+      }
+
+      &.danger {
+        background-color: var(--accent-red-25);
+        border-color: var(--accent-red-200);
+        color: var(--accent-red-200);
+
+        &:hover {
+          background-color: var(--accent-red-50);
+          border-color: var(--accent-red-300);
+          color: var(--accent-red-700);
+        }
+
+        &:active {
+          outline: 2px solid var(--accent-red-300);
+          outline-offset: 2px;
+        }
+      }
+    }
+  }
+
+  &.utils {
+    margin-bottom: 12px;
+  }
+}

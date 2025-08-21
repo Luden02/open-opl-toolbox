@@ -43,6 +43,7 @@ function createWindow() {
   if (serve) {
     electronReloader(module);
     win.loadURL("http://localhost:4200");
+    win.webContents.openDevTools();
   } else {
     win.loadFile(
       path.join(__dirname, "..", "angular", "browser", "index.html")
