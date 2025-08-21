@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import PackageInfo from '../../../../../../package.json';
 import {
   FileQuestionMarkIcon,
   LibraryIcon,
@@ -17,6 +18,7 @@ import { filter } from 'rxjs';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
+  readonly version = PackageInfo.version;
   readonly libraryIcon = LibraryIcon;
   readonly fileQuestionIcon = FileQuestionMarkIcon;
   readonly logsIcon = LogsIcon;
