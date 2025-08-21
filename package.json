@@ -1,57 +1,82 @@
 {
   "name": "open-opl-toolbox",
-  "productName": "open-opl-toolbox",
-  "version": "0.3.0-alpha.0",
-  "description": "An open-source and cross-platform toolbox for your OpenPS2Loader (OPL) needs",
-  "main": ".webpack/main",
+  "version": "0.1.0-alpha.0",
+  "description": "A modern, cross-platform way to manage your OPL game collection. ",
+  "main": "dist/main.js",
+  "author": "Luden02",
+  "email": "github.com.overtime522@passmail.com",
+  "license": "MIT",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "make-mac-x64": "npm run make -- --arch=x64 --platform=darwin",
-    "make-mac-arm64": "npm run make -- --arch=arm64 --platform=darwin",
-    "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "postinstall": "electron-builder install-app-deps",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "app:serve": "npm-run-all -p angular:serve build:watch electron:serve",
+    "angular:serve": "cd angular && ng serve",
+    "electron:serve": "electron ./dist/main.js --serve",
+    "start": "npm run build && electron ./dist/main.js",
+    "package:win": "npm run remove && cd angular && npm run build && cd .. && npm run build && electron-builder --win",
+    "package:mac": "npm run remove && cd angular && npm run build && cd .. && npm run build && electron-builder --mac",
+    "package:linux": "npm run remove && cd angular && npm run build && cd .. && npm run build && electron-builder --linux",
+    "remove": "rimraf -rf ./dist && rimraf -rf ./build",
+    "electron": "electron"
   },
-  "keywords": [],
-  "author": {
-    "name": "Luden02",
-    "email": "Luden02@users.noreply.github.com"
-  },
-  "license": "GPL-3.0-only",
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.2",
-    "@electron-forge/maker-deb": "^7.8.2",
-    "@electron-forge/maker-dmg": "^7.8.3",
-    "@electron-forge/maker-rpm": "^7.8.2",
-    "@electron-forge/maker-squirrel": "^7.8.2",
-    "@electron-forge/maker-zip": "^7.8.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.8.2",
-    "@electron-forge/plugin-fuses": "^7.8.2",
-    "@electron-forge/plugin-webpack": "^7.8.2",
-    "@electron/fuses": "^2.0.0",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "css-loader": "^6.11.0",
-    "electron": "37.2.5",
-    "eslint": "^8.57.1",
-    "eslint-plugin-import": "^2.32.0",
-    "fork-ts-checker-webpack-plugin": "^7.3.0",
-    "node-loader": "^2.1.0",
-    "style-loader": "^3.3.4",
-    "ts-loader": "^9.5.2",
-    "typescript": "~4.5.4"
+    "7zip-bin": "^5.2.0",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.24.0",
-    "@emotion/react": "^11.14.0",
-    "electron-squirrel-startup": "^1.0.1",
-    "next-themes": "^0.4.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-icons": "^5.5.0"
+    "electron-reloader": "^1.2.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1"
+  },
+  "build": {
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "icon": "assets/images/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "icon": "assets/images/icon.icns",
+      "target": [
+        "dmg"
+      ],
+      "hardenedRuntime": true
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Utility",
+      "icon": "assets/images/linux-icon.png",
+      "maintainer": "Luden02 <github.com.overtime522@passmail.com>",
+      "vendor": "Luden02"
+    }
   }
 }
