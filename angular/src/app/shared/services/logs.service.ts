@@ -2,17 +2,32 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface LogEntry {
-  timestamp: Date;
+  timestamp: string;
   location: string;
   message: string;
-  type: 'INFO' | 'ERROR';
-  level: 'NORMAL' | 'VERBOSE';
+  type: 'INF' | 'ERR' | 'VRB';
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class LogsService {
+  private verboseMode: boolean;
+
+  constructor() {
+    const stored = localStorage.getItem('verboseMode');
+    this.verboseMode = stored === 'true';
+  }
+
+  get isVerboseMode(): boolean {
+    return this.verboseMode;
+  }
+
+  toggleVerboseMode(): void {
+    this.verboseMode = !this.verboseMode;
+    localStorage.setItem('verboseMode', String(this.verboseMode));
+  }
+
   private logs: LogEntry[] = [];
 
   private logsSubject = new BehaviorSubject<LogEntry[]>(this.logs);
@@ -22,29 +37,27 @@ export class LogsService {
   }
 
   log(location: string, message: string): void {
-    this.addLog(location, message, 'INFO', 'NORMAL');
+    this.addLog(location, message, 'INF');
   }
 
   error(location: string, message: string): void {
-    this.addLog(location, message, 'ERROR', 'NORMAL');
+    this.addLog(location, message, 'ERR');
   }
 
   verbose(location: string, message: string): void {
-    this.addLog(location, message, 'INFO', 'VERBOSE');
+    this.addLog(location, message, 'VRB');
   }
 
   private addLog(
     location: string,
     message: string,
-    type: 'INFO' | 'ERROR',
-    level: 'NORMAL' | 'VERBOSE'
+    type: 'INF' | 'ERR' | 'VRB'
   ): void {
     const entry: LogEntry = {
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
       location,
       message,
       type,
-      level,
     };
     this.logs.push(entry);
     this.logsSubject.next([...this.logs]);

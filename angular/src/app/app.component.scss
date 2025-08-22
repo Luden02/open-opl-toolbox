@@ -1,13 +1,5 @@
-.main-container {
-  display: flex;
-
-  .sidebar {
-    width: 210px;
-    min-width: 210px;
-  }
-
-  .content {
-    margin: 24px 24px;
-    width: 100%;
+.clr-vertical-nav {
+  ::ng-deep .nav-content {
+    margin-top: 24px;
   }
 }

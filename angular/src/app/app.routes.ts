@@ -6,6 +6,11 @@ import { InvalidComponent } from './pages/invalid/invalid.component';
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'library',
+    pathMatch: 'full',
+  },
+  {
+    path: 'library',
     component: LibraryComponent,
   },
   {
