@@ -38,6 +38,21 @@
   --accent-red-900: #801f1f;
 }
 
+:root {
+  --palette-white: #fcfcfc;
+  --palette-purple-25: #f3f0fa;
+  --palette-purple-50: #e7def6;
+  --palette-purple-100: #d9c9f0;
+  --palette-purple-200: #cbb3ea;
+  --palette-purple-300: #bca0e3;
+  --palette-purple-400: #ad8cdd;
+  --palette-purple-500: #9e79d7;
+  --palette-purple-600: #8a63c4;
+  --palette-purple-700: #754eb0;
+  --palette-purple-800: #60399c;
+  --palette-purple-900: #4c2588;
+}
+
 html,
 body {
   height: 100%;
