@@ -1,0 +1,17 @@
+:host {
+  max-width: 480px;
+}
+
+.container {
+  width: 480px;
+  height: 200px;
+  border: 1px solid var(--cds-alias-object-border-color);
+  display: flex;
+}
+
+.cover-art {
+  width: 140px;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--cds-alias-object-border-color);
+}

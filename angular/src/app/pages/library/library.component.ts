@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { GamecardComponent } from './components/gamecard/gamecard.component';
 
 @Component({
   selector: 'app-library',
-  imports: [],
+  imports: [GamecardComponent],
   templateUrl: './library.component.html',
-  styleUrl: './library.component.scss'
+  styleUrl: './library.component.scss',
 })
-export class LibraryComponent {
-
-}
+export class LibraryComponent {}
