@@ -1,8 +1,13 @@
+<div class="action-row">
+  <div class="headline">Library</div>
+  <div>
+    <clr-button-group class="btn-group btn-primary">
+      <clr-button>Download GameART for all the games!</clr-button>
+    </clr-button-group>
+  </div>
+</div>
 <div class="content">
-  <app-gamecard></app-gamecard><app-gamecard></app-gamecard
-  ><app-gamecard></app-gamecard><app-gamecard></app-gamecard
-  ><app-gamecard></app-gamecard><app-gamecard></app-gamecard
-  ><app-gamecard></app-gamecard><app-gamecard></app-gamecard
-  ><app-gamecard></app-gamecard><app-gamecard></app-gamecard
-  ><app-gamecard></app-gamecard>
+  @for (item of this._libraryService.library$ | async; track item) {
+  <app-gamecard [game]="item"></app-gamecard>
+  }
 </div>

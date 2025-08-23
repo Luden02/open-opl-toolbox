@@ -180,6 +180,12 @@ export class LibraryService {
   private async parseGameFilesToLibrary(gamefiles: RawGameFile[]) {
     this.setLoading(true);
     this.setCurrentAction('Mapping gamefiles to Game Objects...');
+    this._logger.verbose(
+      'libraryService.parseGameFilesToLibrary',
+      'Started mapping gamefiles to GameObjects: ' +
+        gamefiles.length +
+        ' Files...'
+    );
     const validGames: Game[] = [];
     const invalidFiles: any[] = [];
 
@@ -193,13 +199,22 @@ export class LibraryService {
       ) {
         this.setLoading(true);
         this.setCurrentAction(file.name);
+
+        this._logger.verbose(
+          'libraryService.parseGameFilesToLibrary',
+          `Mapping: ${file.name}`
+        );
         // Extract gameId from file.name (e.g., "SCES_500.00.Ridge Racer V" => "SCES_500.00")
         const gameIdMatch = file.name.match(/^([A-Z]{4}_\d{3}\.\d{2})/);
-        const gameId = gameIdMatch ? gameIdMatch[1].replace('_', '-') : '';
+        const gameId = gameIdMatch ? gameIdMatch[1] : '';
+
+        // Remove everything before the 2nd "."
+        // Example: "SCES_500.00.Ridge Racer V" => "Ridge Racer V"
+        const title = file.name.split('.').slice(2).join('.') || file.name;
 
         validGames.push({
           filename: file.name + file.extension,
-          title: file.name,
+          title: title,
           cdType: file.parentPath?.split(/[\\/]/).pop() || '',
           gameId: gameId,
           region: this.mapGameIdToRegion(gameId),

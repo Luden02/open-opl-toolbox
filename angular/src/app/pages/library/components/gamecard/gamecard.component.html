@@ -1,13 +1,30 @@
+@if(game) {
 <div class="container">
   <div class="cover-art">
     <img
       [src]="
-        'https://raw.githubusercontent.com/Luden02/psx-ps2-opl-art-database/refs/heads/main/PS2/SLUS_213.51/SLUS_213.51_COV.png'
+        `https://raw.githubusercontent.com/Luden02/psx-ps2-opl-art-database/refs/heads/main/PS2/${game.gameId}/${game.gameId}_COV.png`
       "
       alt="cover-art"
     />
   </div>
   <div class="game-info">
-    title: Need For Speed: Most Wanted (Black Edition)
+    <div class="game-details">
+      <div><strong>Game ID:</strong> {{ game.gameId }}</div>
+      <div><strong>Name:</strong> {{ game.title }}</div>
+      <div><strong>Region:</strong> {{ game.region }}</div>
+      <div><strong>Size:</strong> {{ game.size }}</div>
+      <div><strong>Disk Type:</strong> {{ game.cdType }}</div>
+    </div>
+    <div class="game-buttons">
+      <clr-button-group class="btn-group btn-outline-primary btn-sm">
+        <clr-button>Edit metadata</clr-button>
+        <clr-button class="btn-outline-danger">delete</clr-button>
+        <clr-button [clrInMenu]="true"
+          >Download available GameART for this game</clr-button
+        >
+      </clr-button-group>
+    </div>
   </div>
 </div>
+}
