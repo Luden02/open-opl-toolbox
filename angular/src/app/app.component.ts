@@ -2,13 +2,23 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LogsService } from './shared/services/logs.service';
 import PackageInfo from '../../../package.json';
-import { ClarityModule, ClrVerticalNavModule } from '@clr/angular';
+import {
+  ClarityModule,
+  ClrButtonGroup,
+  ClrButtonGroupModule,
+  ClrTooltip,
+  ClrTooltipModule,
+  ClrVerticalNavModule,
+} from '@clr/angular';
 import {
   ClarityIcons,
   hardDriveIcon,
   resistorIcon,
   unknownStatusIcon,
+  disconnectIcon,
 } from '@cds/core/icon';
+import { LibraryService } from './shared/services/library.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -17,16 +27,27 @@ import {
     RouterLink,
     RouterLinkActive,
     ClarityModule,
+    ClrButtonGroupModule,
     ClrVerticalNavModule,
+    AsyncPipe,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(private readonly _logger: LogsService) {}
+  public currentDirectory = 'None';
+  constructor(
+    private readonly _logger: LogsService,
+    public readonly _libraryService: LibraryService
+  ) {}
 
   ngOnInit() {
-    ClarityIcons.addIcons(hardDriveIcon, unknownStatusIcon, resistorIcon);
+    ClarityIcons.addIcons(
+      hardDriveIcon,
+      unknownStatusIcon,
+      resistorIcon,
+      disconnectIcon
+    );
     const os = window.navigator.platform;
 
     this._logger.log(

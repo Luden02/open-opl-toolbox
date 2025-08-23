@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("electron", {
-  sendMessage: (channel: string, data: any) => ipcRenderer.send(channel, data),
-  getData: (channel: string) => ipcRenderer.invoke(channel),
-  onDataUpdate: (callback: any) => ipcRenderer.on("update-data", callback),
+contextBridge.exposeInMainWorld("libraryAPI", {
+  openAskDirectory: () => ipcRenderer.invoke("open-ask-directory"),
+  getGamesFiles: (dirPath: string) =>
+    ipcRenderer.invoke("get-games-files", dirPath),
 });

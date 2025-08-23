@@ -5,11 +5,11 @@
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
 
-OpenOPL Toolbox – A modern, cross-platform way to manage your OPL game collection.
+OrbitOPL Toolbox – A modern, cross-platform way to manage your OPL game collection.
 
 # 📖 About
 
-OpenOPL Toolbox is an open-source and cross-platform application for organizing your PlayStation 2 game library.
+OrbitOPL Toolbox is an open-source and cross-platform application for organizing your PlayStation 2 game library.
 
 It was created to fill the gap left by OPLManager, which lacks macOS and Linux support.
 The goal isn’t to replace OPLManager, but to offer an alternative — one that’s modern, intuitive, and built with technologies familiar to JavaScript developers.
@@ -43,13 +43,13 @@ The goal isn’t to replace OPLManager, but to offer an alternative — one that
 
 ## 💻 Installation
 
-Grab the latest release from the Releases page. [Releases](https://github.com/StefanAdrianNita/open-opl-toolbox/releases) page.
+Grab the latest release from the Releases page. [Releases](https://github.com/StefanAdrianNita/OrbitOPL-Toolbox/releases) page.
 
 ### 🐧 Linux
 
 1. Download the **Linux `.zip`** file.
 2. Extract it.
-3. Run the `open-opl-toolbox` file.
+3. Run the `OrbitOPL-Toolbox` file.
 
 ---
 
@@ -72,7 +72,7 @@ Grab the latest release from the Releases page. [Releases](https://github.com/St
 
 ## 🚀 Getting Started
 
-1. Launch OpenOPLToolbox
+1. Launch OrbitOPL
 2. Select your OPL Library root folder (internal directory or external drive)
 3. Use the interface to see, and manage your game collection
 4. Rename your files or grab your artwork!
@@ -84,7 +84,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 # 🤝 Contributing
 
-Contributions are welcome! Here's how you can help improve OpenOPLToolbox:
+Contributions are welcome! Here's how you can help improve OrbitOPL Toolbox:
 
 ## Ways to Contribute
 
@@ -98,8 +98,8 @@ Contributions are welcome! Here's how you can help improve OpenOPLToolbox:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Luden02/open-opl-toolbox.git
-   cd open-opl-toolbox
+   git clone https://github.com/Luden02/OrbitOPL-Toolbox.git
+   cd OrbitOPL-Toolbox
    ```
 
 2. Install dependencies:

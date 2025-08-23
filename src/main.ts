@@ -1,7 +1,8 @@
-import { app, BrowserWindow, globalShortcut, Menu } from "electron";
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu } from "electron";
 import path from "path";
 import electronReloader from "electron-reloader";
 import PackageInfo from "../package.json";
+import { getGamesFiles, openAskDirectory } from "./library.service";
 
 const size = { minWidth: 1024, minHeight: 600 };
 
@@ -11,7 +12,7 @@ function createWindow() {
     height: size.minHeight,
     minWidth: size.minWidth,
     minHeight: size.minHeight,
-    title: `OpenOPLToolbox (${PackageInfo.version})`,
+    title: `OrbitOPL Toolbox (${PackageInfo.version})`,
     icon: path.join(__dirname, "assets", "applogo", "icon_512x512.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -23,7 +24,7 @@ function createWindow() {
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
       {
-        label: "OpenOPL Toolbox",
+        label: "OrbitOPL Toolbox",
         submenu: [
           {
             label: "Quit",
@@ -77,4 +78,14 @@ app.on("browser-window-focus", function () {
 app.on("browser-window-blur", function () {
   globalShortcut.unregister("CommandOrControl+R");
   globalShortcut.unregister("F5");
+});
+
+// Electron exposed APIs
+
+ipcMain.handle("open-ask-directory", async (options) => {
+  return openAskDirectory(options);
+});
+
+ipcMain.handle("get-games-files", async (event, dirPath: string) => {
+  return getGamesFiles(dirPath);
 });
