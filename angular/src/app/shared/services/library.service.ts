@@ -189,12 +189,14 @@ export class LibraryService {
     const invalidFiles: any[] = [];
 
     for (const file of gamefiles) {
+      const gameIdMatch = file.name.match(/^([A-Z]{4}_\d{3}\.\d{2})\.(.+)$/);
       if (
         file.extension === '.iso' &&
         typeof file.name === 'string' &&
         typeof file.path === 'string' &&
         file.stats &&
-        typeof file.stats.size === 'number'
+        typeof file.stats.size === 'number' &&
+        gameIdMatch
       ) {
         this.setLoading(true);
         this.setCurrentAction(file.name);
@@ -203,13 +205,8 @@ export class LibraryService {
           'libraryService.parseGameFilesToLibrary',
           `Mapping: ${file.name}`
         );
-        // Extract gameId from file.name (e.g., "SCES_500.00.Ridge Racer V" => "SCES_500.00")
-        const gameIdMatch = file.name.match(/^([A-Z]{4}_\d{3}\.\d{2})/);
-        const gameId = gameIdMatch ? gameIdMatch[1] : '';
-
-        // Remove everything before the 2nd "."
-        // Example: "SCES_500.00.Ridge Racer V" => "Ridge Racer V"
-        const title = file.name.split('.').slice(2).join('.') || file.name;
+        const gameId = gameIdMatch[1];
+        const title = gameIdMatch[2];
 
         validGames.push({
           filename: file.name + file.extension,
@@ -243,6 +240,9 @@ export class LibraryService {
     this.invalidFilesSubject.next(invalidFiles);
     this.setCurrentAction('');
     this.setLoading(false);
+
+    console.log(validGames);
+    console.log(invalidFiles);
   }
 
   private parseArtFiles(dirPath: string) {
@@ -253,5 +253,13 @@ export class LibraryService {
       this.setLoading(false);
       return artFiles.data;
     });
+  }
+
+  public async renameInvalidGameFile(
+    path: string,
+    gameId: string,
+    gameName: string
+  ) {
+    return;
   }
 }
