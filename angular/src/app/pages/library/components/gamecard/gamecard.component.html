@@ -1,12 +1,14 @@
 @if(game) {
 <div class="container">
   <div class="cover-art">
-    <img
-      [src]="
-        `https://raw.githubusercontent.com/Luden02/psx-ps2-opl-art-database/refs/heads/main/PS2/${game.gameId}/${game.gameId}_COV.png`
-      "
-      alt="cover-art"
-    />
+    @if(coverArt){
+    <img [src]="'data:image/png;base64,' + coverArt.base64" alt="cover-art" />
+    } @else {
+    <div class="no-art">
+      <div><cds-icon shape="unknown-status"></cds-icon></div>
+      <div>No Art Available</div>
+    </div>
+    }
   </div>
   <div class="game-info">
     <div class="game-details">
@@ -18,7 +20,7 @@
     </div>
     <div class="game-buttons">
       <clr-button-group class="btn-group btn-outline-primary btn-sm">
-        <clr-button>Edit metadata</clr-button>
+        <clr-button>Edit gameinfo</clr-button>
         <clr-button class="btn-outline-danger">delete</clr-button>
         <clr-button [clrInMenu]="true"
           >Download available GameART for this game</clr-button

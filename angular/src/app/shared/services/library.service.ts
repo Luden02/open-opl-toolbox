@@ -63,6 +63,8 @@ export class LibraryService {
       'User disconnected OPL Library directory'
     );
     this.setCurrentDirectory(undefined);
+    this.librarySubject.next([]);
+    this.invalidFilesSubject.next([]);
   }
 
   public openAskDirectory() {
@@ -108,9 +110,6 @@ export class LibraryService {
       return window.libraryAPI
         .getGamesFiles(currentDirectory)
         .then(async (files) => {
-          //TODO remove log
-          console.log(files);
-
           if (files.success) {
             this._logger.log(
               'libraryService',
@@ -228,13 +227,31 @@ export class LibraryService {
       }
     }
 
-    console.log(validGames);
+    if (this.currentDirectory) {
+      const artFiles = await this.parseArtFiles(this.currentDirectory);
+      for (const game of validGames) {
+        game.art = artFiles
+          .filter((art: any) => art.gameId === game.gameId)
+          .map((art: any) => art);
+      }
+    }
 
     this.setLoading(true);
     this.setCurrentAction('Saving...');
+    console.log(validGames);
     this.librarySubject.next(validGames);
     this.invalidFilesSubject.next(invalidFiles);
     this.setCurrentAction('');
     this.setLoading(false);
+  }
+
+  private parseArtFiles(dirPath: string) {
+    this.setLoading(true);
+    this.setCurrentAction('Parsing /ART folder on disk...');
+    return window.libraryAPI.getArtFolder(dirPath).then((artFiles) => {
+      this.setCurrentAction('');
+      this.setLoading(false);
+      return artFiles.data;
+    });
   }
 }

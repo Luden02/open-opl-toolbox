@@ -8,6 +8,7 @@ export type Game = {
   path: string;
   extension: string;
   parentPath: string;
+  art?: gameArt[];
 };
 
 export type RawGameFile = {
@@ -35,4 +36,13 @@ export type RawGameFile = {
     ctime: string;
     birthtime: string;
   };
+};
+
+export type gameArt = {
+  extension: string;
+  gameId: string;
+  name: string;
+  path: string;
+  type: string;
+  base64: string;
 };

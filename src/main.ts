@@ -2,7 +2,11 @@ import { app, BrowserWindow, globalShortcut, ipcMain, Menu } from "electron";
 import path from "path";
 import electronReloader from "electron-reloader";
 import PackageInfo from "../package.json";
-import { getGamesFiles, openAskDirectory } from "./library.service";
+import {
+  getArtFolder,
+  getGamesFiles,
+  openAskDirectory,
+} from "./library.service";
 
 const size = { minWidth: 1024, minHeight: 600 };
 
@@ -88,4 +92,8 @@ ipcMain.handle("open-ask-directory", async (options) => {
 
 ipcMain.handle("get-games-files", async (event, dirPath: string) => {
   return getGamesFiles(dirPath);
+});
+
+ipcMain.handle("get-art-folder", async (event, dirPath: string) => {
+  return getArtFolder(dirPath);
 });

@@ -57,3 +57,35 @@ export async function getGamesFiles(dirPath: string) {
     return { success: false, message: err };
   }
 }
+
+export async function getArtFolder(dirpath: string) {
+  try {
+    const artDir = path.join(dirpath, "ART");
+    const items = await fs.readdir(artDir, { withFileTypes: true });
+    const artFiles = await Promise.all(
+      items
+        .filter(
+          (item) =>
+            item.isFile() &&
+            !item.name.startsWith(".") &&
+            (item.name.toLowerCase().endsWith(".jpg") ||
+              item.name.toLowerCase().endsWith(".png"))
+        )
+        .map(async (item) => {
+          const filePath = path.join(artDir, item.name);
+          const fileBuffer = await fs.readFile(filePath);
+          return {
+            name: path.parse(item.name).name,
+            extension: path.extname(item.name),
+            path: filePath,
+            gameId: item.name.split("_")[0] + "_" + item.name.split("_")[1],
+            type: item.name.split("_")[2]?.split(".")[0] || "",
+            base64: fileBuffer.toString("base64"),
+          };
+        })
+    );
+    return { success: true, data: artFiles };
+  } catch (err) {
+    return { success: false, message: err };
+  }
+}
